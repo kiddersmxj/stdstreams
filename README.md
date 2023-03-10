@@ -10,3 +10,4 @@ Simple tool to redirect std streams into user configured visually appealing outp
   - [ ] Signle page printing comapred to scrolling wall
   - [ ] Data/variable averaging
 - [ ] TUI
+- [ ] gdb interfacing/incorporation
