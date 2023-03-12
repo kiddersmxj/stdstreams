@@ -6,5 +6,6 @@
 #include <stdio.h>
 
 FILE *LaunchChild(const char* Program);
+std::string GetOutput(FILE* fp);
 
 #endif

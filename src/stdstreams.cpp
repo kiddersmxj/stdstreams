@@ -9,15 +9,16 @@ int main(int argc, char** argv) {
     }
 
     const char* Program(argv[1]);
+    bool Exit = 0;
     FILE *fp;
     fp = LaunchChild(Program);
 
-    int status;
-    char path[PATH_MAX];
-    while (fgets(path, PATH_MAX, fp) != NULL)
-        printf("%s", path);
+    while(!Exit) {
+        if(GetOutput(fp) == "EXIT")
+            Exit = 1;
+    }
 
-    status = pclose(fp);
+    int status = pclose(fp);
     if (status == -1) {
         /* Error reported by pclose() */
         printf("Error, reported");
@@ -40,5 +41,19 @@ FILE* LaunchChild(const char* Program) {
         std::cout << "popen error" << std::endl;
     }
     return fp;
+}
+
+std::string GetOutput(FILE* fp) {
+    char path[PATH_MAX];
+    if(fgets(path, PATH_MAX, fp) != NULL) {
+        printf("\033[0;35m");
+        printf("%s", path);
+        printf("\033[0m");
+
+        BreakPoint();
+
+        return path;
+    } else 
+        return "EXIT";
 }
 
