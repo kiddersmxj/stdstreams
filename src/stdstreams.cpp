@@ -1,5 +1,4 @@
 #include "../inc/stdstreams.hpp"
-#include <stdio.h>
 
 #define PATH_MAX 1000
 
@@ -8,22 +7,15 @@ int main(int argc, char** argv) {
         std::cout << "Please pass program to parse" << std::endl;
         return 1;
     }
-    const char* Program(argv[1]);
-    std::cout << "Running... " << Program << std::endl;
 
+    const char* Program(argv[1]);
     FILE *fp;
+    fp = LaunchChild(Program);
+
     int status;
     char path[PATH_MAX];
-
-
-    fp = popen(Program, "r");
-    if (fp == NULL)
-    /* Handle error */;
-
-
     while (fgets(path, PATH_MAX, fp) != NULL)
         printf("%s", path);
-
 
     status = pclose(fp);
     if (status == -1) {
@@ -34,6 +26,19 @@ int main(int argc, char** argv) {
          to determine success/failure of command executed by popen() */
         printf("Done running");
     }
-
     return 0;
 }
+
+FILE* LaunchChild(const char* Program) {
+    FILE *fp;
+
+    std::cout << "Running... " << Program << std::endl;
+
+    fp = popen(Program, "r");
+    if (fp == NULL) {
+        /* Handle error */;
+        std::cout << "popen error" << std::endl;
+    }
+    return fp;
+}
+
