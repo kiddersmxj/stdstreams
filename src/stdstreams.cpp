@@ -10,23 +10,18 @@ int main(int argc, char** argv) {
 
     const char* Program(argv[1]);
     bool Exit = 0;
-    FILE *fp;
-    fp = LaunchChild(Program);
+    /* FILE *fp; */
+    /* fp = LaunchChild(Program); */
+    Child Child(Program);
 
     while(!Exit) {
-        if(GetOutput(fp) == "EXIT")
+        /* if(GetOutput(fp) == "EXIT") */
+        if(Child.Read() == "EXIT")
             Exit = 1;
     }
 
-    int status = pclose(fp);
-    if (status == -1) {
-        /* Error reported by pclose() */
-        printf("Error, reported");
-    } else {
-        /* Use macros described under wait() to inspect `status' in order
-         to determine success/failure of command executed by popen() */
-        printf("Done running");
-    }
+    Child.Close();
+
     return 0;
 }
 
