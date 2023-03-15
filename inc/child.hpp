@@ -1,3 +1,5 @@
+#ifndef KCHILD
+#define KCHILD
 #include <iostream>
 #include <stdio.h>
 #include "../lib/std-k/std-k.hpp"
@@ -13,3 +15,4 @@ class Child {
         char path[PATH_MAX];
         FILE *fp;
 };
+#endif
