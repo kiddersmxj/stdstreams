@@ -12,9 +12,11 @@ Child::Child(const char* Program) {
 
 std::string Child::Read() {
     if(fgets(path, PATH_MAX, fp) != NULL) {
+#ifdef CCOUT
         printf("\033[0;35m");
         printf("%s", path);
         printf("\033[0m");
+#endif
 
         BreakPoint();
 
