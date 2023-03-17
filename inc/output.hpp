@@ -19,6 +19,7 @@ class Output {
         std::vector<std::string> Status;
 };
 
+std::vector<std::string> SeperateInput(std::string Input);
 std::string IdentifyEmptyValues(std::string Input);
 void ReplaceFirst(std::string& s ,std::string const& ToReplace, std::string const& ReplaceWith);
 

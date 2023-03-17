@@ -1,28 +1,14 @@
 #include "../inc/output.hpp"
-#include <cstddef>
-#include <cstdint>
-#include <cstdlib>
 
 Output::Output(std::string Input) {
     Input = Input;
  
     auto QuoteDelim = R"(")";
     auto SpaceDelim = " ";
-    auto CommaDelim = ",";
     auto EqualsDelim = "=";
 
     Input = IdentifyEmptyValues(Input);
-
-    bool Quote = 0;
-    std::string tmp;
-    std::string s;
-    std::stringstream ss(Input); 
-    while (std::getline(ss, s, *CommaDelim)) { 
-        if(s.at(0) == ' ') {
-            s.erase(0, 1);
-        }
-        All.push_back(s); 
-    }
+    All = SeperateInput(Input);
 
     int NameValueFlip = 0;
     for(std::string t: All) {
@@ -42,11 +28,35 @@ Output::Output(std::string Input) {
             Status.push_back(Values[VGetIndex(Names, stat)]);
         }
     }
+    std::cout << std::endl << "All:" << std::endl;
+    VPrint(All);
+    std::cout << std::endl << "Names:" << std::endl;
+    VPrint(Names);
+    std::cout << std::endl << "Values:" << std::endl;
+    VPrint(Values);
+    std::cout << std::endl << "Status:" << std::endl;
     VPrint(Status);
 }
 
 void Output::Parse(std::string Input) {
-    
+    Input = IdentifyEmptyValues(Input);
+    All = SeperateInput(Input);
+}
+
+std::vector<std::string> SeperateInput(std::string Input) {
+    bool Quote = 0;
+    std::string tmp;
+    std::string s;
+    std::vector<std::string> V;
+    auto CommaDelim = ",";
+    std::stringstream ss(Input); 
+    while (std::getline(ss, s, *CommaDelim)) { 
+        if(s.at(0) == ' ') {
+            s.erase(0, 1);
+        }
+        V.push_back(s); 
+    }
+    return V;
 }
 
 std::string IdentifyEmptyValues(std::string Input) {
