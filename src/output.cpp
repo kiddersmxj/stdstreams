@@ -1,5 +1,6 @@
 #include "../inc/output.hpp"
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 
 Output::Output(std::string Input) {
@@ -9,11 +10,8 @@ Output::Output(std::string Input) {
     auto SpaceDelim = " ";
     auto CommaDelim = ",";
     auto EqualsDelim = "=";
-    auto EmptyDelim = "=,";
 
-    while(Input.find(EmptyDelim) != std::string::npos) {
-        ReplaceFirst(Input, "=,", "=" + NoDataMark + ",");
-    }
+    Input = IdentifyEmptyValues(Input);
 
     bool Quote = 0;
     std::string tmp;
@@ -45,6 +43,19 @@ Output::Output(std::string Input) {
         }
     }
     VPrint(Status);
+}
+
+void Output::Parse(std::string Input) {
+    
+}
+
+std::string IdentifyEmptyValues(std::string Input) {
+    auto EmptyDelim = "=,";
+    std::string NoDataMarkInternal = "NAna";
+    while(Input.find(EmptyDelim) != std::string::npos) {
+        ReplaceFirst(Input, "=,", "=" + NoDataMarkInternal + ",");
+    }
+    return Input;
 }
 
 void ReplaceFirst(std::string& s ,std::string const& ToReplace, std::string const& ReplaceWith) {
