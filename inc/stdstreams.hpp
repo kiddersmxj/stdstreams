@@ -1,7 +1,7 @@
 #ifndef KSTDSTREAMS
 #define KSTDSTREAMS
 
-#include "../lib/std-k/std-k.hpp"
+#include "../lib/std-k.hpp"
 #include "child.hpp"
 #include "output.hpp"
 #include <vector>

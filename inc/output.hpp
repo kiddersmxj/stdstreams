@@ -1,8 +1,7 @@
 #ifndef KOUTPUT
 #define KOUTPUT
 
-#include "../lib/std-k/std-k.hpp"
-#include "config.hpp"
+#include "../lib/std-k.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,6 +10,7 @@
 class Output {
     public:
         Output(std::string Input);
+        void Parse(std::string Input);
     private:
         std::string Input;
         std::vector<std::string> All;
@@ -19,6 +19,7 @@ class Output {
         std::vector<std::string> Status;
 };
 
+std::string IdentifyEmptyValues(std::string Input);
 void ReplaceFirst(std::string& s ,std::string const& ToReplace, std::string const& ReplaceWith);
 
 #endif
