@@ -1,4 +1,4 @@
-# stdstreams [![Makefile](https://github.com/kiddersmxj/stdstreams/actions/workflows/Makefile.yml/badge.svg)](https://github.com/kiddersmxj/stdstreams/actions/workflows/makefile.yml)
+# stdstreams [![Makefile](https://github.com/kiddersmxj/stdstreams/actions/workflows/makefile.yml/badge.svg)](https://github.com/kiddersmxj/stdstreams/actions/workflows/makefile.yml)
 Simple tool to redirect std streams into user configured visually appealing outputs
 
 ### Roadmap
