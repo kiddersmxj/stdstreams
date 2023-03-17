@@ -23,6 +23,7 @@ all: bin/$(TARGET_EXEC)
 
 bin/$(TARGET_EXEC): $(OBJS)
 	@echo "Linking..."
+	$(MKDIR_P) $(dir $@)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
