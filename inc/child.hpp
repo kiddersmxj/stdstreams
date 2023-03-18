@@ -11,7 +11,9 @@ class Child {
         Child(const char* Program);
         std::string Read();
         void Close();
+        bool QuestionExit();
     private:
+        bool Exit = 0;
         char path[PATH_MAX];
         FILE *fp;
 };

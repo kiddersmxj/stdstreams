@@ -21,8 +21,14 @@ std::string Child::Read() {
         BreakPoint();
 
         return path;
-    } else 
+    } else  {
+        Exit = 1;
         return "EXIT";
+    }
+}
+
+bool Child::QuestionExit() {
+    return Exit;
 }
 
 void Child::Close() {
