@@ -1,33 +1,17 @@
 #include "../inc/output.hpp"
+#include <vector>
 
 Output::Output(std::string Input) {
     Input = Input;
  
     auto QuoteDelim = R"(")";
     auto SpaceDelim = " ";
-    auto EqualsDelim = "=";
 
     Input = IdentifyEmptyValues(Input);
     All = SeperateInput(Input);
+    SeperateNamesValues(All, Names, Values);
+    ParseStatus(Names, Values, Status);
 
-    int NameValueFlip = 0;
-    for(std::string t: All) {
-        std::stringstream sst(t);
-        std::string tt;
-        while (std::getline(sst, t, *EqualsDelim)) { 
-            if(!NameValueFlip)
-                Names.push_back(t);
-            else if(NameValueFlip)
-                Values.push_back(t);
-            NameValueFlip = ! NameValueFlip;
-        }
-    }
-
-    for(std::string stat: Names) {
-        if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
-            Status.push_back(Values[VGetIndex(Names, stat)]);
-        }
-    }
     std::cout << std::endl << "All:" << std::endl;
     VPrint(All);
     std::cout << std::endl << "Names:" << std::endl;
@@ -41,6 +25,37 @@ Output::Output(std::string Input) {
 void Output::Parse(std::string Input) {
     Input = IdentifyEmptyValues(Input);
     All = SeperateInput(Input);
+    SeperateNamesValues(All, Names, Values);
+    ParseStatus(Names, Values, Status);
+}
+
+void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
+    // Use a copy to properly terate through as you delete status elements from names and values
+    std::vector<std::string> NamesCopy = Names;
+    for(std::string stat: NamesCopy) {
+        if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
+            int Index = VGetIndex(Names, stat);
+            Status.push_back(Values[Index]);
+            Names.erase(Names.begin() + Index);
+            Values.erase(Values.begin() + Index);
+        }
+    }
+}
+
+void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values) {
+    int NameValueFlip = 0;
+    auto EqualsDelim = "=";
+    for(std::string t: All) {
+        std::string tt;
+        std::stringstream sst(t);
+        while (std::getline(sst, t, *EqualsDelim)) { 
+            if(!NameValueFlip)
+                Names.push_back(t);
+            else if(NameValueFlip)
+                Values.push_back(t);
+            NameValueFlip = ! NameValueFlip;
+        }
+    }
 }
 
 std::vector<std::string> SeperateInput(std::string Input) {
