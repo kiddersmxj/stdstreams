@@ -9,16 +9,14 @@ int main(int argc, char** argv) {
     }
 
     const char* Program(argv[1]);
-    bool Exit = 0;
 
     /* FILE *fp; */
     /* fp = LaunchChild(Program); */
     Child Child(Program);
     Output Output(Child.Read());
 
-    while(!Exit) {
-        if(Child.Read() == "EXIT")
-            Exit = 1;
+    while(!Child.QuestionExit()) {
+        Output.Parse(Child.Read());
     }
 
     Child.Close();
