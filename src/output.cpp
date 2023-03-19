@@ -1,4 +1,5 @@
 #include "../inc/output.hpp"
+#include <cstddef>
 #include <vector>
 
 Output::Output(std::string Input) {
@@ -23,16 +24,24 @@ Output::Output(std::string Input) {
 }
 
 void Output::Parse(std::string Input) {
+    Names.clear();
+    Values.clear();
+    Status.clear();
     Input = IdentifyEmptyValues(Input);
     All = SeperateInput(Input);
     SeperateNamesValues(All, Names, Values);
     ParseStatus(Names, Values, Status);
+    std::cout << "Out: " << std::endl;
+    VPrint(Names);
+    VPrint(Values);
+    VPrint(Status);
 }
 
 void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
     // Use a copy to properly terate through as you delete status elements from names and values
     std::vector<std::string> NamesCopy = Names;
     for(std::string stat: NamesCopy) {
+        // TODO Functionise to add as many keywords to add to status message as user requires
         if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
             int Index = VGetIndex(Names, stat);
             Status.push_back(Values[Index]);
