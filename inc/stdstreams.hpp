@@ -5,6 +5,7 @@
 #include "child.hpp"
 #include "output.hpp"
 #include "config.hpp"
+#include "display.hpp"
 #include <vector>
 #include <iostream>
 #include <stdio.h>
