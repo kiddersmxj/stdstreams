@@ -10,6 +10,8 @@ int main(int argc, char** argv) {
 
     const char* Program(argv[1]);
 
+    Display Display;
+
     /* FILE *fp; */
     /* fp = LaunchChild(Program); */
     Child Child(Program);
@@ -17,6 +19,8 @@ int main(int argc, char** argv) {
 
     while(!Child.QuestionExit()) {
         Output.Parse(Child.Read());
+        Display.Create(Output);
+        Display.Print();
     }
 
     Child.Close();
