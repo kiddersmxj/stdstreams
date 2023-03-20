@@ -13,6 +13,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 LDFLAGS := $(shell find $(LIB_DIRS) -name *.o)
+LDFLAGS += $(shell find $(LIB_DIRS) -name *.a)
 LIBS := $(shell find $(LIB_DIRS)/*/$(SRC_DIRS) -name *.cpp)
 
 CPPFLAGS ?= -Wall
