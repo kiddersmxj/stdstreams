@@ -11,14 +11,23 @@ class Output {
     public:
         Output(std::string Input);
         void Parse(std::string Input);
+        int GetNoOfInts();
+        std::vector<int> GetIntLocations();
+        int GetInt();
+        int GetIntValue(int Index);
+        std::string GetIntName(int Index);
     private:
         std::string Input;
+        std::vector<int> IntegerLocations;
         std::vector<std::string> All;
         std::vector<std::string> Names;
         std::vector<std::string> Values;
         std::vector<std::string> Status;
 };
 
+
+std::vector<int> ParseIntegers(std::vector<std::string> Values);
+bool IsInteger(std::string str);
 void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
 void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);
 std::vector<std::string> SeperateInput(std::string Input);

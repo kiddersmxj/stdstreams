@@ -13,6 +13,7 @@ Output::Output(std::string Input) {
     SeperateNamesValues(All, Names, Values);
     ParseStatus(Names, Values, Status);
 
+#ifdef OCCOUT
     std::cout << std::endl << "All:" << std::endl;
     VPrint(All);
     std::cout << std::endl << "Names:" << std::endl;
@@ -21,6 +22,7 @@ Output::Output(std::string Input) {
     VPrint(Values);
     std::cout << std::endl << "Status:" << std::endl;
     VPrint(Status);
+#endif
 }
 
 void Output::Parse(std::string Input) {
@@ -31,10 +33,53 @@ void Output::Parse(std::string Input) {
     All = SeperateInput(Input);
     SeperateNamesValues(All, Names, Values);
     ParseStatus(Names, Values, Status);
+    IntegerLocations = ParseIntegers(Values);
+#ifdef OCOUT
     std::cout << "Out: " << std::endl;
     VPrint(Names);
     VPrint(Values);
     VPrint(Status);
+    for(int i: IntegerLocations)
+        std::cout << i << std::endl;
+#endif
+}
+
+int Output::GetNoOfInts() {
+    return IntegerLocations.size();
+}
+
+int Output::GetIntValue(int Index) {
+    std::cout << Values[1] << std::endl;
+    int Value = stoi(Values[Index]);
+    return Value;
+}
+
+std::string Output::GetIntName(int Index) {
+    std::string Name = Names[Index];
+    return Name;
+}
+
+std::vector<int> Output::GetIntLocations() {
+    return IntegerLocations;
+}
+
+std::vector<int> ParseIntegers(std::vector<std::string> Values) {
+    std::vector<int> IntegersLocations;
+    int i = 0;
+    for(std::string s: Values) {
+        if(IsInteger(s)) {
+            IntegersLocations.push_back(i);
+        }
+        i++;
+    }
+    return IntegersLocations;
+}
+
+bool IsInteger(std::string str) {
+    for (int i = 0; i < str.length(); i++)
+        if (isdigit(str[i]) == false)
+            return false;
+    return true;
 }
 
 void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
