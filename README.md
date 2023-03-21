@@ -2,12 +2,13 @@
 Simple tool to redirect std streams into user configured visually appealing outputs
 
 ### Roadmap
-- [ ] Program wrapper to run/open stream to be parsed
+- [x] Program wrapper to run/open stream to be parsed
 - [ ] Customising of output
   - [ ] Columns by `X=x`
   - [ ] Constraning values to colour gradient range
   - [ ] Status messages to be printed in seperate area
   - [ ] Signle page printing comapred to scrolling wall
   - [ ] Data/variable averaging
+  - [ ] Gauges
 - [ ] TUI
 - [ ] gdb interfacing/incorporation
