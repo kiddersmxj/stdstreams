@@ -30,9 +30,10 @@ class Display {
         std::string ResetPosition;
     private:
         ftxui::Element Screen;
-        ftxui::Element IntElement(Output Output, int Index);
 };
 
+ftxui::Element GetStrElement(Output Output, int Index);
+ftxui::Element GetIntElement(Output Output, int Index);
 std::vector<ftxui::Element> GetSectors();
 
 #endif

@@ -1,4 +1,5 @@
 #include "../inc/display.hpp"
+#include <ftxui/dom/deprecated.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/dom/node.hpp>
 #include <ftxui/screen/screen.hpp>
@@ -21,18 +22,36 @@ void Display::Print() {
 }
 
 void Display::Create(Output Output) {
+	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, 5);
     std::vector<Element> IntElements;
+    std::vector<Element> StrElements;
     for(int i: Output.GetIntLocations())
-        IntElements.push_back(IntElement(Output, i));
-    Screen = vbox(IntElements);
+        IntElements.push_back(GetIntElement(Output, i));
+    for(int i: Output.GetStrLocations())
+        StrElements.push_back(GetStrElement(Output, i));
+    Screen = vbox({
+            hbox({
+                vbox(IntElements) | flex,
+                vbox(StrElements),
+                }) | flex,
+				window(text("status"), text("statuses")) | StatusStyle,
+            });
 }
 
-Element Display::IntElement(Output Output, int Index) {
-    Element Element;
-    Element = hbox({
-            window(text(Output.GetIntName(Index)),
-                        text(std::to_string(Output.GetIntValue(Index)))
-                            ) | flex });
+Element GetStrElement(Output Output, int Index){
+	Decorator StringStyle = size(WIDTH, GREATER_THAN, 20) | size(HEIGHT, GREATER_THAN, 30) | size(WIDTH, LESS_THAN, 50);
+	Element Element = vbox({
+			window(text(Output.GetName(Index)),
+					text(Output.GetValue(Index))
+					) | flex }) | StringStyle;
+	return Element;
+}
+
+Element GetIntElement(Output Output, int Index) {
+    Element Element = hbox({
+            window(text(Output.GetName(Index)),
+                        text(Output.GetValue(Index))
+                            ) | flex }) | flex;
     return Element;
 }
 
