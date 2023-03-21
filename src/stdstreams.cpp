@@ -12,15 +12,15 @@ int main(int argc, char** argv) {
 
     Display Display;
 
-    /* FILE *fp; */
-    /* fp = LaunchChild(Program); */
     Child Child(Program);
     Output Output(Child.Read());
 
     while(!Child.QuestionExit()) {
         Output.Parse(Child.Read());
         Display.Create(Output);
+#ifndef NODISPLAY
         Display.Print();
+#endif
     }
 
     Child.Close();
