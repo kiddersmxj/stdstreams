@@ -1,5 +1,6 @@
 #include "../inc/output.hpp"
 #include <cstddef>
+#include <string>
 #include <vector>
 
 Output::Output(std::string Input) {
@@ -44,23 +45,42 @@ void Output::Parse(std::string Input) {
 #endif
 }
 
-int Output::GetNoOfInts() {
-    return IntegerLocations.size();
-}
-
-int Output::GetIntValue(int Index) {
-    std::cout << Values[1] << std::endl;
-    int Value = stoi(Values[Index]);
+std::string Output::GetValue(int Index) {
+    std::string Value = Values[Index];
     return Value;
 }
 
-std::string Output::GetIntName(int Index) {
+std::string Output::GetName(int Index) {
     std::string Name = Names[Index];
     return Name;
 }
 
 std::vector<int> Output::GetIntLocations() {
     return IntegerLocations;
+}
+
+std::vector<int> Output::GetStrLocations() {
+    std::vector<int> StringLocations;
+    std::vector<std::string> tmpStringLocations;
+    for(int i(0); i<Names.size(); i++)
+        tmpStringLocations.push_back(std::to_string(i));
+    for(int i: IntegerLocations) {
+        const std::string Replacment = "NAna";
+        const std::string I = std::to_string(i);
+        ReplaceFirst(tmpStringLocations[i], I, Replacment);
+    }
+    std::vector<std::string>::iterator i = tmpStringLocations.begin();
+    while(i != tmpStringLocations.end()) {
+        if(i->find("NAna", 0) != std::string::npos) {
+            i = tmpStringLocations.erase(i);
+        } else {
+            ++i;
+        }
+    }
+    for(std::string i: tmpStringLocations) {
+        StringLocations.push_back((stoi(i)));
+    }
+    return StringLocations;
 }
 
 std::vector<int> ParseIntegers(std::vector<std::string> Values) {
@@ -76,10 +96,8 @@ std::vector<int> ParseIntegers(std::vector<std::string> Values) {
 }
 
 bool IsInteger(std::string str) {
-    for (int i = 0; i < str.length(); i++)
-        if (isdigit(str[i]) == false)
-            return false;
-    return true;
+    bool rtn = !str.empty() && str.find_first_not_of("0123456789-.") == std::string::npos;
+    return rtn;
 }
 
 void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
@@ -137,7 +155,7 @@ std::string IdentifyEmptyValues(std::string Input) {
     return Input;
 }
 
-void ReplaceFirst(std::string& s ,std::string const& ToReplace, std::string const& ReplaceWith) {
+void ReplaceFirst(std::string &s ,std::string const &ToReplace, std::string const &ReplaceWith) {
     std::size_t pos = s.find(ToReplace);
     if (pos == std::string::npos) return;
     s.replace(pos, ToReplace.length(), ReplaceWith);
