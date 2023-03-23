@@ -1,4 +1,11 @@
 #include "../inc/display.hpp"
+#include <ftxui/dom/deprecated.hpp>
+#include <ftxui/dom/elements.hpp>
+#include <ftxui/dom/node.hpp>
+#include <ftxui/screen/screen.hpp>
+#include <vector>
+#include <string>
+#include <cstring>
 
 using namespace ftxui;
 

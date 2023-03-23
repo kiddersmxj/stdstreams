@@ -1,4 +1,7 @@
 #include "../inc/output.hpp"
+#include <cstddef>
+#include <string>
+#include <vector>
 
 Output::Output(std::string Input) {
     Input = Input;
