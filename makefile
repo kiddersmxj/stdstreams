@@ -5,6 +5,7 @@ FLAGS ?=
 BUILD_DIR ?= build
 SRC_DIRS ?= src
 LIB_DIRS ?= lib
+DEST_DIR ?= /usr/local/bin
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -32,10 +33,10 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CPPFLAGS) -c $< -o $@ -D$(DEFS) $(FLAGS)
 
-libs: $(LIBS)
-	echo "$(LIBS)"
-	echo "$^"
-	$(CC) $(CPPFLAGS) -c $^ -o lib/$(notdir ${subst .cpp,.o,$^}) -D${DEFS}
+install: all
+	mkdir -p ${DEST_DIR}
+	cp -f stdstreams ${DEST_DIR}/${TARGET_EXEC}
+	chmod 755 ${DEST_DIR}/${TARGET_EXEC}
 
 .PHONY: clean
 
