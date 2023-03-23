@@ -1,7 +1,7 @@
 #ifndef KOUTPUT
 #define KOUTPUT
 
-#include "../lib/std-k.hpp"
+#include "../lib/std-k/std-k.hpp"
 #include <iostream>
 #include <string>
 #include <vector>

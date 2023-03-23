@@ -2,7 +2,7 @@
 #define KCHILD
 #include <iostream>
 #include <stdio.h>
-#include "../lib/std-k.hpp"
+#include "../lib/std-k/std-k.hpp"
 
 #define PATH_MAX 1000
 
