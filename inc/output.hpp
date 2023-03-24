@@ -16,6 +16,7 @@ class Output {
         std::vector<int> GetStrLocations();
         std::string GetValue(int Index);
         std::string GetName(int Index);
+        std::vector<std::string> GetStatus();
     private:
         std::string Input;
         std::vector<int> IntegerLocations;
@@ -24,7 +25,6 @@ class Output {
         std::vector<std::string> Values;
         std::vector<std::string> Status;
 };
-
 
 std::vector<int> ParseIntegers(std::vector<std::string> Values);
 bool IsInteger(std::string str);

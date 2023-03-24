@@ -1,19 +1,9 @@
 #include "../inc/display.hpp"
-#include <ftxui/dom/deprecated.hpp>
-#include <ftxui/dom/elements.hpp>
-#include <ftxui/dom/node.hpp>
-#include <ftxui/screen/screen.hpp>
 #include <vector>
-#include <string>
-#include <cstring>
 
 using namespace ftxui;
 
 void Display::Print() {
-    /* auto component = hbox({ */
-    /*         window(text("stdstreams") | bold | center, */
-    /*                 vbox(std::move(GetSectors()))) | flex */
-    /*         }); */
     auto screen = Screen::Create(Dimension::Full(), Dimension::Full());
     Render(screen, Screen);
     std::cout << ResetPosition;
@@ -31,11 +21,20 @@ void Display::Create(Output Output) {
         StrElements.push_back(GetStrElement(Output, i));
     Screen = vbox({
             hbox({
-                vbox(IntElements) | flex,
-                vbox(StrElements),
+                vbox(std::move(IntElements)) | flex,
+                vbox(std::move(StrElements)),
                 }) | flex,
-				window(text("status"), text("statuses")) | StatusStyle,
+				window(text("status"), vbox(std::move(GetStatElement(Output)))) | StatusStyle,
             });
+}
+
+std::vector<Element> GetStatElement(Output Output) {
+	std::vector<Element> StatusElements;
+	for(std::string s: Output.GetStatus()) {
+		Element Element = text(s);
+		StatusElements.push_back(Element);
+	}
+	return StatusElements;
 }
 
 Element GetStrElement(Output Output, int Index){

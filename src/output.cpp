@@ -83,6 +83,22 @@ std::vector<int> Output::GetStrLocations() {
     return StringLocations;
 }
 
+std::vector<std::string> Output::GetStatus() {
+    return Status;
+}
+
+std::string CatStatus(std::vector<std::string> StatusVector) {
+    std::string Status = "";
+    int i = 0;
+    for(std::string s: StatusVector) {
+        if(i == 0)
+            Status = s;
+        Status = Status + '\n' + s;
+        i++;
+    }
+    return Status;
+}
+
 std::vector<int> ParseIntegers(std::vector<std::string> Values) {
     std::vector<int> IntegersLocations;
     int i = 0;

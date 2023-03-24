@@ -17,6 +17,8 @@
 
 #include "output.hpp"
 
+using namespace ftxui;
+
 class Display {
     public:
         void Close();
@@ -24,11 +26,12 @@ class Display {
         void Create(Output Output);
         std::string ResetPosition;
     private:
-        ftxui::Element Screen;
+        Element Screen;
 };
 
-ftxui::Element GetStrElement(Output Output, int Index);
-ftxui::Element GetIntElement(Output Output, int Index);
+std::vector<Element> GetStatElement(Output Output);
+Element GetStrElement(Output Output, int Index);
+Element GetIntElement(Output Output, int Index);
 std::vector<ftxui::Element> GetSectors();
 
 #endif
