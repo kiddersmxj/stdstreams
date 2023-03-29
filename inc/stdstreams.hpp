@@ -10,4 +10,9 @@
 #include <iostream>
 #include <stdio.h>
 
+void ExitError();
+void ExitError(const std::string Message);
+void ExitErrorUsage();
+void ExitErrorUsage(const char* Message);
+
 #endif

@@ -1,11 +1,13 @@
 #include "../inc/stdstreams.hpp"
+#include <cstdio>
+#include <cstdlib>
 
 #define PATH_MAX 1000
+extern int errno;
 
 int main(int argc, char** argv) {
     if(argv[1] == NULL) {
-        std::cout << "Please pass program to parse" << std::endl;
-        return 1;
+        ExitErrorUsage("Please pass program to parse");
     }
 
     const char* Program(argv[1]);
@@ -28,3 +30,13 @@ int main(int argc, char** argv) {
     return 0;
 }
 
+void ExitErrorUsage(){
+    std::cout << UsageNotes;
+    exit(EXIT_FAILURE);
+}
+
+void ExitErrorUsage(const char* Message) {
+    errno = EXIT_FAILURE;
+    perror(Message);
+    ExitErrorUsage();
+}
