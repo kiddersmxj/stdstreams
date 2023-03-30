@@ -11,7 +11,7 @@ options:
     -v / --version      Print version and exit successfully
 
 errors may occur when the user running the command does not have 
-access to the stdout of the program run. please check this is mot 
+access to the stdout of the program run. please check this is not 
 the case.
 )";
 

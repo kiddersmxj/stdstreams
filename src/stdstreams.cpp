@@ -7,7 +7,8 @@ extern int errno;
 
 int main(int argc, char** argv) {
     if(argv[1] == NULL) {
-        ExitErrorUsage("Please pass program to parse");
+        errno = EXIT_FAILURE;
+        ExitErrorUsage("please pass program to parse");
     }
 
     const char* Program(argv[1]);
@@ -32,11 +33,10 @@ int main(int argc, char** argv) {
 
 void ExitErrorUsage(){
     std::cout << UsageNotes;
-    exit(EXIT_FAILURE);
+    exit(errno);
 }
 
 void ExitErrorUsage(const char* Message) {
-    errno = EXIT_FAILURE;
     perror(Message);
     ExitErrorUsage();
 }
