@@ -14,7 +14,7 @@ void ExitError();
 void ExitError(const std::string Message);
 void ExitErrorUsage();
 void ExitErrorUsage(const char* Message);
-int EvalOptions();
+const char*  EvalOptions(int argc, char** argv);
 void PrintVersion();
 
 #endif
