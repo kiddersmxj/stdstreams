@@ -30,6 +30,14 @@ install(
     DESTINATION /usr/local/bin/
 )
 
+if(DISPLAY STREQUAL "no")
+    message("NODISPLAY enabled")
+    add_compile_definitions(NODISPLAY)
+endif()
+if(DISPLAY STREQUAL "yes")
+    message("DISPLAY enabled")
+endif()
+
 target_sources(stdstreams PRIVATE src/output.cpp)
 target_sources(stdstreams PRIVATE src/child.cpp)
 target_sources(stdstreams PRIVATE src/display.cpp)

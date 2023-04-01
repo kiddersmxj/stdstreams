@@ -1,6 +1,4 @@
 CC = g++
-DEFS ?= RUN
-FLAGS ?=
 
 BUILD_DIR ?= build
 SRC_DIRS ?= src
@@ -31,7 +29,7 @@ bin/$(TARGET_EXEC): $(OBJS)
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	@echo "Making Objects..."
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) -c $< -o $@ -D$(DEFS) $(FLAGS)
+	$(CC) $(CPPFLAGS) -c $< -o $@
 
 install: all
 	mkdir -p ${DEST_DIR}
