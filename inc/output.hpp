@@ -17,16 +17,20 @@ class Output {
         std::string GetValue(int Index);
         std::string GetName(int Index);
         std::vector<std::string> GetStatus();
+        void RecordInt(int Int, int Index);
     private:
+        bool IntRecordCreated = 0;
         std::string Input;
+        std::vector<std::vector<int>> Ints;
         std::vector<int> IntegerLocations;
         std::vector<std::string> All;
         std::vector<std::string> Names;
         std::vector<std::string> Values;
         std::vector<std::string> Status;
+        void CreateIntRecord(int Int);
+        void ParseIntegers(std::vector<std::string> Values);
 };
 
-std::vector<int> ParseIntegers(std::vector<std::string> Values);
 bool IsInteger(std::string str);
 void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
 void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);

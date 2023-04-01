@@ -18,11 +18,14 @@ int main(int argc, char** argv) {
     Output Output(Child.Read());
 
     while(!Child.QuestionExit()) {
-        Output.Parse(Child.Read());
-        Display.Create(Output);
 #ifndef NODISPLAY
+        Display.Create(Output);
         Display.Print();
+#else
+        std::cout << "***DISPLAY***" << std::endl;
 #endif
+        Output.Parse(Child.Read());
+        BreakPoint();
     }
 
     Child.Close();

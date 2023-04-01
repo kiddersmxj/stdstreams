@@ -4,17 +4,16 @@
 #include <vector>
 
 Output::Output(std::string Input) {
-    Input = Input;
- 
-    auto QuoteDelim = R"(")";
-    auto SpaceDelim = " ";
+    /* Input = Input; */
+    /* Input = IdentifyEmptyValues(Input); */
+    /* All = SeperateInput(Input); */
+    /* SeperateNamesValues(All, Names, Values); */
+    /* ParseStatus(Names, Values, Status); */
+    /* IntegerLocations = ParseIntegers(Values); */
+    Parse(Input);
+#ifdef OCOUT
+    std::cout << "No of ints: " << IntegerLocations.size() << std::endl;
 
-    Input = IdentifyEmptyValues(Input);
-    All = SeperateInput(Input);
-    SeperateNamesValues(All, Names, Values);
-    ParseStatus(Names, Values, Status);
-
-#ifdef OCCOUT
     std::cout << std::endl << "All:" << std::endl;
     VPrint(All);
     std::cout << std::endl << "Names:" << std::endl;
@@ -30,12 +29,14 @@ void Output::Parse(std::string Input) {
     Names.clear();
     Values.clear();
     Status.clear();
+    IntegerLocations.clear();
     Input = IdentifyEmptyValues(Input);
     All = SeperateInput(Input);
     SeperateNamesValues(All, Names, Values);
     ParseStatus(Names, Values, Status);
-    IntegerLocations = ParseIntegers(Values);
+    ParseIntegers(Values);
 #ifdef OCOUT
+    std::cout << "Parsing complete" << std::endl;
     std::cout << "Out: " << std::endl;
     VPrint(Names);
     VPrint(Values);
@@ -87,16 +88,66 @@ std::vector<std::string> Output::GetStatus() {
     return Status;
 }
 
-std::vector<int> ParseIntegers(std::vector<std::string> Values) {
-    std::vector<int> IntegersLocations;
+void Output::CreateIntRecord(int Int) {
+    std::vector<int> v;
+    v.push_back(Int);
+    Ints.push_back(v);
+    
+    int in = 0;
+    for(std::vector<int> v: Ints) {
+#ifdef OCOUT
+        std::cout << "Creation start of v " << in << std::endl;
+#endif
+        for(int i: v)
+#ifdef OCOUT
+            std::cout << "i: " << i << std::endl;
+#endif
+        in++;
+    }
+#ifdef OCOUT
+    std::cout << "int size: " << Ints.size() << " Iloco size: " << IntegerLocations.size() << std::endl;
+#endif
+}
+
+void Output::RecordInt(int Int, int Index) {
+    Index = Index - 1;
+#ifdef OCOUT
+    std::cout << "Recorded Int: " << Int << " Index: " << Index << std::endl;
+#endif
+    Ints[Index].insert(Ints[Index].begin(), Int);
+    if(Ints[Index].size() > 50 )
+        Ints[Index].pop_back();
+#ifdef OCOUT
+    for(int i: Ints[Index])
+        std::cout << "Vector with ints in: " << i << std::endl;
+#endif
+}
+
+void Output::ParseIntegers(std::vector<std::string> Values) {
     int i = 0;
     for(std::string s: Values) {
         if(IsInteger(s)) {
-            IntegersLocations.push_back(i);
+            IntegerLocations.push_back(i);
+            if(IntRecordCreated)
+                RecordInt(stoi(s), i);
+            else if(!IntRecordCreated) {
+                CreateIntRecord(stoi(s));
+            }
         }
         i++;
     }
-    return IntegersLocations;
+    IntRecordCreated = 1;
+    int in = 0;
+    for(std::vector<int> v: Ints) {
+#ifdef OCOUT
+        std::cout << "start of v " << in << std::endl;
+#endif
+        for(int i: v)
+#ifdef OCOUT
+            std::cout << "i2: " << i << std::endl;
+#endif
+        in++;
+    }
 }
 
 bool IsInteger(std::string str) {
