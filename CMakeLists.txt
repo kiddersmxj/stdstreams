@@ -24,7 +24,7 @@ endif()
 FetchContent_GetProperties(std-k)
 if(NOT std-k_POPULATED)
   FetchContent_Populate(std-k)
-  add_subdirectory(${std-k_SOURCE_DIR} ${std-k_BINARY_DIR} EXCLUDE_FROM_ALL)
+  add_subdirectory(${std-k_SOURCE_DIR} ${std-k_BINARY_DIR})
 endif()
  
 # ------------------------------------------------------------------------------
@@ -41,6 +41,19 @@ install(
     TARGETS stdstreams
     DESTINATION /usr/local/bin/
 )
+#message(${std-k_SOURCE_DIR}/inc)
+#message(${CMAKE_INSTALL_INCLUDEDIR})
+#message(${std-k_BINARY_DIR})
+#message(${CMAKE_INSTALL_LIBDIR})
+#install(DIRECTORY "${std-k_SOURCE_DIR}/inc" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(DIRECTORY ${std-k_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_LIBDIR})
+#install(TARGETS std-k
+#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(
+#    TARGETS std-k
+#    DESTINATION /usr/local/lib
+#)
 
 if(DISPLAY STREQUAL "no")
     message("NODISPLAY enabled")
@@ -58,12 +71,22 @@ if(ICOUT STREQUAL "yes")
     add_compile_definitions(ICOUT)
 endif()
 
-target_sources(stdstreams PRIVATE src/output.cpp)
-target_sources(stdstreams PRIVATE src/child.cpp)
-target_sources(stdstreams PRIVATE src/display.cpp)
-#target_sources(stdstreams PRIVATE lib/std-k/std-k.cpp)
-target_include_directories(stdstreams PRIVATE src)
+#add_compile_definitions(BUILD_SHARED_LIBS=ON)
 
+target_sources(stdstreams
+    PRIVATE src/output.cpp
+    PRIVATE src/child.cpp
+    PRIVATE src/display.cpp
+)
+
+target_include_directories(stdstreams
+    PRIVATE src
+    SHARED ${std-k_SOURCE_DIR}/inc
+)
+
+link_directories( ${std-k_BINARY_DIR} )
+message(${CMAKE_CURRENT_BINARY_DIR})
+message(${std-k_BINARY_DIR})
 target_link_libraries(stdstreams
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
