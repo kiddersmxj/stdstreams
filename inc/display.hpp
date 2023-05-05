@@ -6,14 +6,18 @@
 #include <type_traits>
 #include <string>  // for operator+, to_string
 #include <vector>  // for vector, __alloc_traits<>::value_type
+#include <iostream>
+#include <ostream>
+#include <vector>
 
-#include "../lib/component/captured_mouse.hpp"  // for ftxui
-#include "../lib/component/component.hpp"  // for Menu, Renderer, Horizontal, Vertical
-#include "../lib/component/component_base.hpp"  // for ComponentBase
-#include "../lib/dom/elements.hpp"  // for text, graph, operator|, separator, color, Element, vbox, flex, inverted, operator|=, Fit, hbox, size, border, GREATER_THAN, HEIGHT
-#include "../lib/screen/screen.hpp"  // for Full, Screen
-#include "../lib/dom/node.hpp"  // for Render
-#include "../lib/screen/color.hpp"  // for Color, Color::BlueLight, Color::RedLight, Color::YellowLight, ftxui
+#include <ftxui/component/captured_mouse.hpp>  // for ftxui
+#include <ftxui/component/component.hpp>  // for Menu, Renderer, Horizontal, Vertical
+#include <ftxui/component/component_base.hpp>  // for ComponentBase
+#include <ftxui/dom/elements.hpp>  // for text, graph, operator|, separator, color, Element, vbox, flex, inverted, operator|=, Fit, hbox, size, border, GREATER_THAN, HEIGHT
+#include <ftxui/screen/screen.hpp>  // for Full, Screen
+#include <ftxui/screen/string.hpp>
+#include <ftxui/dom/node.hpp>  // for Render
+#include <ftxui/screen/color.hpp>  // for Color, Color::BlueLight, Color::RedLight, Color::YellowLight, ftxui
 
 #include "output.hpp"
 

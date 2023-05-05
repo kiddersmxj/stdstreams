@@ -1,7 +1,7 @@
 #ifndef KOUTPUT
 #define KOUTPUT
 
-#include "../lib/std-k/std-k.hpp"
+#include <std-k.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,6 +18,7 @@ class Output {
         std::string GetName(int Index);
         std::vector<std::string> GetStatus();
         void RecordInt(int Int, int Index);
+        std::vector<std::vector<int>> GetInts();
     private:
         bool IntRecordCreated = 0;
         std::string Input;
