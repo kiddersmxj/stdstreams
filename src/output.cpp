@@ -115,11 +115,12 @@ void Output::RecordInt(int Int, int Index) {
     std::cout << "Recorded Int: " << Int << " Index: " << Index << std::endl;
 #endif
     Ints[Index].insert(Ints[Index].begin(), Int);
-    if(Ints[Index].size() > 50 )
+    if(Ints[Index].size() > 400 )
         Ints[Index].pop_back();
 #ifdef OCOUT
     for(int i: Ints[Index])
         std::cout << "Vector with ints in: " << i << std::endl;
+    std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
 #endif
 }
 
@@ -150,6 +151,10 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
     }
 }
 
+std::vector<std::vector<int>> Output::GetInts() {
+    return Ints;
+}
+
 bool IsInteger(std::string str) {
     bool rtn = !str.empty() && str.find_first_not_of("0123456789-.") == std::string::npos;
     return rtn;
@@ -161,7 +166,7 @@ void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Valu
     for(std::string stat: NamesCopy) {
         // TODO Functionise to add as many keywords to add to status message as user requires
         if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
-            int Index = VGetIndex(Names, stat);
+            int Index = k::VGetIndex(Names, stat);
             Status.push_back(Values[Index]);
             Names.erase(Names.begin() + Index);
             Values.erase(Values.begin() + Index);
