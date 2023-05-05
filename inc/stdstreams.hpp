@@ -1,7 +1,7 @@
 #ifndef KSTDSTREAMS
 #define KSTDSTREAMS
 
-#include "../lib/std-k/std-k.hpp"
+#include <std-k.hpp>
 #include "child.hpp"
 #include "output.hpp"
 #include "config.hpp"
@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <stdio.h>
+#include <thread>
 
 void ExitError();
 void ExitError(const std::string Message);
