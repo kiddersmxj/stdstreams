@@ -88,7 +88,7 @@ std::vector<std::string> Output::GetStatus() {
     return Status;
 }
 
-void Output::CreateIntRecord(int Int) {
+void Output::CreateIntMatrix(int Int) {
     std::vector<int> v;
     v.push_back(Int);
     Ints.push_back(v);
@@ -107,6 +107,8 @@ void Output::CreateIntRecord(int Int) {
 #ifdef OCOUT
     std::cout << "int size: " << Ints.size() << " Iloco size: " << IntegerLocations.size() << std::endl;
 #endif
+    for(int i=0; i<Ints.size(); i++)
+        MaxInts.push_back(0);
 }
 
 void Output::RecordInt(int Int, int Index) {
@@ -122,6 +124,7 @@ void Output::RecordInt(int Int, int Index) {
         std::cout << "Vector with ints in: " << i << std::endl;
     std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
 #endif
+    MaxInts.at(Index) = *max_element(std::begin(Ints[Index]), std::end(Ints[Index]));
 }
 
 void Output::ParseIntegers(std::vector<std::string> Values) {
@@ -132,7 +135,7 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
             if(IntRecordCreated)
                 RecordInt(stoi(s), i);
             else if(!IntRecordCreated) {
-                CreateIntRecord(stoi(s));
+                CreateIntMatrix(stoi(s));
             }
         }
         i++;
@@ -153,6 +156,10 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
 
 std::vector<std::vector<int>> Output::GetInts() {
     return Ints;
+}
+
+int Output::GetMaxInt(int Index) {
+    return MaxInts.at(Index);
 }
 
 bool IsInteger(std::string str) {

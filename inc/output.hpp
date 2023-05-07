@@ -19,16 +19,18 @@ class Output {
         std::vector<std::string> GetStatus();
         void RecordInt(int Int, int Index);
         std::vector<std::vector<int>> GetInts();
+        int GetMaxInt(int Index);
     private:
         bool IntRecordCreated = 0;
         std::string Input;
+        std::vector<int> MaxInts;
         std::vector<std::vector<int>> Ints;
         std::vector<int> IntegerLocations;
         std::vector<std::string> All;
         std::vector<std::string> Names;
         std::vector<std::string> Values;
         std::vector<std::string> Status;
-        void CreateIntRecord(int Int);
+        void CreateIntMatrix(int Int);
         void ParseIntegers(std::vector<std::string> Values);
 };
 
