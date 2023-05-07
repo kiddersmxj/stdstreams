@@ -9,8 +9,13 @@ void Display::Create(Output Output) {
 	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, 5);
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
-    for(int i: Output.GetIntLocations())
-        IntElements.push_back(GetIntElement(Output, i));
+    for(int i: Output.GetIntLocations()) {
+        Element Element = hbox({
+            window(text(Output.GetName(i)),
+                        text(Output.GetValue(i))
+                            ) | flex }) | flex;
+        IntElements.push_back(Element | flex);
+    }
     for(int i: Output.GetStrLocations())
         StrElements.push_back(GetStrElement(Output, i));
 
@@ -51,9 +56,15 @@ void Display::Create(Output Output) {
         return Out;
     };
 
+    std::vector<Element> Graphs;
+    for(int i=0; i<Output.GetInts().size(); i++) {
+        GraphNo = i;
+        graph(std::ref(Graph)) | flex;
+    }
+
     Screen = vbox({
             hbox({
-                vbox(std::move(IntElements), graph(std::ref(Graph))) | flex,
+                vbox(std::move(IntElements)),
                 vbox(std::move(StrElements)),
                 }) | flex,
 				window(text("status"), vbox(std::move(GetStatElement(Output)))) | StatusStyle,
