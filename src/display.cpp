@@ -12,14 +12,12 @@ void Display::Create(Output Output) {
     std::vector<Element> StrElements;
 
     int GraphNo;
-    auto Graph = [&Output, &GraphNo](int width, int height) mutable {
+    auto Graph = [&Output, &GraphNo](int width, int height) {
         std::vector<int> Out(width);
-#ifdef ICOUT
-        std::cout << width << std::endl;
-#endif
         int Iterator = GraphNo;
         GraphNo++;
 #ifdef ICOUT
+        std::cout << width << std::endl;
         std::cout << "It: " << Iterator << std::endl;
         std::cout << "size: " << Output.GetInts().at(Iterator).size() << "*********" << std::endl;
 #endif
