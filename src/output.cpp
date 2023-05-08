@@ -108,8 +108,10 @@ void Output::CreateIntMatrix(int Int) {
 #ifdef OCOUT
     std::cout << "int size: " << Ints.size() << " Iloco size: " << IntegerLocations.size() << std::endl;
 #endif
-    for(int i=0; i<Ints.size(); i++)
-        MaxInts.push_back(0);
+    for(int i=0; i<Ints.size(); i++) {
+        MaxInts.push_back(-100);
+        MinInts.push_back(100);
+    }
 }
 
 void Output::RecordInt(int Int, int Index) {
@@ -125,6 +127,10 @@ void Output::RecordInt(int Int, int Index) {
     std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
 #endif
     MaxInts.at(Index) = *max_element(std::begin(Ints[Index]), std::end(Ints[Index]));
+    int Min = *min_element(std::begin(Ints[Index]), std::end(Ints[Index]));
+    if(Min > 0)
+        Min = 0;
+    MinInts.at(Index) = Min;
 }
 
 void Output::ParseIntegers(std::vector<std::string> Values) {
@@ -160,6 +166,10 @@ std::vector<std::vector<int>> Output::GetInts() {
 
 int Output::GetMaxInt(int Index) {
     return MaxInts.at(Index);
+}
+
+int Output::GetMinInt(int Index) {
+    return MinInts.at(Index);
 }
 
 bool IsInteger(std::string str) {

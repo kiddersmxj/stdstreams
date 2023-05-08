@@ -20,10 +20,12 @@ class Output {
         void RecordInt(int Int, int Index);
         std::vector<std::vector<int>> GetInts();
         int GetMaxInt(int Index);
+        int GetMinInt(int Index);
     private:
         bool IntRecordCreated = 0;
         std::string Input;
         std::vector<int> MaxInts;
+        std::vector<int> MinInts;
         std::vector<std::vector<int>> Ints;
         std::vector<int> IntegerLocations;
         std::vector<std::string> All;

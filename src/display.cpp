@@ -30,6 +30,9 @@ void Display::Create(Output Output) {
                 std::cout << Output.GetInts().at(Iterator).at(i) << ",";
 #endif
                 int Value = Output.GetInts().at(Iterator).at(i);
+                /* std::cout << Value << "~"; */
+                Value = k::Map(Value, Output.GetMinInt(Iterator), Output.GetMaxInt(Iterator), 0, height);
+                /* std::cout << Value << std::endl; */
                 Out.at(i) = Value;
             } else {
 #ifdef ICOUT
