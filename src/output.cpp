@@ -1,5 +1,6 @@
 #include "../inc/output.hpp"
 #include <cstddef>
+#include <std-k.hpp>
 #include <string>
 #include <vector>
 
@@ -15,13 +16,13 @@ Output::Output(std::string Input) {
     std::cout << "No of ints: " << IntegerLocations.size() << std::endl;
 
     std::cout << std::endl << "All:" << std::endl;
-    VPrint(All);
+    k::VPrint(All);
     std::cout << std::endl << "Names:" << std::endl;
-    VPrint(Names);
+    k::VPrint(Names);
     std::cout << std::endl << "Values:" << std::endl;
-    VPrint(Values);
+    k::VPrint(Values);
     std::cout << std::endl << "Status:" << std::endl;
-    VPrint(Status);
+    k::VPrint(Status);
 #endif
 }
 
@@ -38,9 +39,9 @@ void Output::Parse(std::string Input) {
 #ifdef OCOUT
     std::cout << "Parsing complete" << std::endl;
     std::cout << "Out: " << std::endl;
-    VPrint(Names);
-    VPrint(Values);
-    VPrint(Status);
+    k::VPrint(Names);
+    k::VPrint(Values);
+    k::VPrint(Status);
     for(int i: IntegerLocations)
         std::cout << i << std::endl;
 #endif
@@ -112,14 +113,13 @@ void Output::CreateIntMatrix(int Int) {
 }
 
 void Output::RecordInt(int Int, int Index) {
-    Index = Index - 1;
 #ifdef OCOUT
     std::cout << "Recorded Int: " << Int << " Index: " << Index << std::endl;
 #endif
     Ints[Index].insert(Ints[Index].begin(), Int);
     if(Ints[Index].size() > 400 )
         Ints[Index].pop_back();
-#ifdef OCOUT
+#ifdef ECOUT
     for(int i: Ints[Index])
         std::cout << "Vector with ints in: " << i << std::endl;
     std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
@@ -129,29 +129,29 @@ void Output::RecordInt(int Int, int Index) {
 
 void Output::ParseIntegers(std::vector<std::string> Values) {
     int i = 0;
+    int j = 0;
     for(std::string s: Values) {
         if(IsInteger(s)) {
             IntegerLocations.push_back(i);
             if(IntRecordCreated)
-                RecordInt(stoi(s), i);
+                RecordInt(stoi(s), j);
             else if(!IntRecordCreated) {
                 CreateIntMatrix(stoi(s));
             }
+            j++;
         }
         i++;
     }
     IntRecordCreated = 1;
+#ifdef ECOUT
     int in = 0;
     for(std::vector<int> v: Ints) {
-#ifdef OCOUT
         std::cout << "start of v " << in << std::endl;
-#endif
         for(int i: v)
-#ifdef OCOUT
             std::cout << "i2: " << i << std::endl;
-#endif
         in++;
     }
+#endif
 }
 
 std::vector<std::vector<int>> Output::GetInts() {
@@ -188,6 +188,7 @@ void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string>
         std::string tt;
         std::stringstream sst(t);
         while (std::getline(sst, t, *EqualsDelim)) { 
+            t.erase(std::remove(t.begin(), t.end(), '\n'), t.cend());
             if(!NameValueFlip)
                 Names.push_back(t);
             else if(NameValueFlip)

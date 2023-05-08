@@ -17,7 +17,6 @@ void Display::Create(Output Output) {
 #ifdef ICOUT
         std::cout << width << std::endl;
 #endif
-        /* int Iterator = Output.GetIntLocations().at(GraphNo); */
         int Iterator = GraphNo;
         GraphNo++;
 #ifdef ICOUT
