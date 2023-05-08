@@ -1,7 +1,9 @@
 #include "../inc/child.hpp"
 
 Child::Child(const char* Program) {
+#ifdef CCOUT
     std::cout << "Launching child process... " << Program << std::endl;
+#endif
 
     fp = popen(Program, "r");
     if (fp == NULL) {

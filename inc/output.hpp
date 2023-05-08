@@ -21,11 +21,15 @@ class Output {
         std::vector<std::vector<int>> GetInts();
         int GetMaxInt(int Index);
         int GetMinInt(int Index);
+        int GetAvgInt(int Index);
+        std::string GetPreviousInts(int Index, int No);
+        std::string GetPreviousInt(int Index, int No);
     private:
         bool IntRecordCreated = 0;
         std::string Input;
         std::vector<int> MaxInts;
         std::vector<int> MinInts;
+        std::vector<int> AvgInts;
         std::vector<std::vector<int>> Ints;
         std::vector<int> IntegerLocations;
         std::vector<std::string> All;

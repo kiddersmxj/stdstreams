@@ -1,5 +1,10 @@
 #include "../inc/display.hpp"
+#include <ftxui/dom/elements.hpp>
 #include <ftxui/dom/node.hpp>
+#include <ftxui/screen/color.hpp>
+#include <ftxui/screen/string.hpp>
+#include <std-k.hpp>
+#include <string>
 
 using namespace ftxui;
 
@@ -30,9 +35,10 @@ void Display::Create(Output Output) {
                 std::cout << Output.GetInts().at(Iterator).at(i) << ",";
 #endif
                 int Value = Output.GetInts().at(Iterator).at(i);
-                /* std::cout << Value << "~"; */
-                Value = k::Map(Value, Output.GetMinInt(Iterator), Output.GetMaxInt(Iterator), 0, height);
-                /* std::cout << Value << std::endl; */
+                int Min = Output.GetMinInt(Iterator);
+                if(Min > 0)
+                    Min = 0;
+                Value = k::Map(Value, Min, Output.GetMaxInt(Iterator), 0, height);
                 Out.at(i) = Value;
             } else {
 #ifdef ICOUT
@@ -55,10 +61,6 @@ void Display::Create(Output Output) {
     std::cout << Graphs.size() << std::endl;
 #endif
     for(int i=0; i<Output.GetInts().size(); i++) {
-        GraphNo = i;
-#ifdef ICOUT
-        std::cout << GraphNo << std::endl;
-#endif
         Graphs.at(i) = graph(std::ref(Graph)) | flex;
     }
     
@@ -73,7 +75,19 @@ void Display::Create(Output Output) {
         std::cout << "I" << I << " i" << i<< std::endl;
 #endif
         Element Content = vbox({
-            text(Output.GetValue(i)),
+            hbox({
+                text(" " + Output.GetPreviousInt(I, 0)) | color(Color::Default),
+                text(" " + Output.GetPreviousInt(I, 1)) | color(Color::Grey70),
+                text(" " + Output.GetPreviousInt(I, 2)) | color(Color::Grey42),
+                text(" " + Output.GetPreviousInt(I, 3)) | color(Color::Grey23),
+                paragraphAlignRight({
+                "avg:" + std::to_string(Output.GetAvgInt(I)) + "   "
+                "min:" + std::to_string(Output.GetMinInt(I)) + "   "
+                "max:" + std::to_string(Output.GetMaxInt(I))
+                }),
+                separatorEmpty(),
+            }),
+            separatorLight(),
             vbox(Graphs.at(I)) | flex
         });
         Element Element = hbox({

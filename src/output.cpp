@@ -109,8 +109,9 @@ void Output::CreateIntMatrix(int Int) {
     std::cout << "int size: " << Ints.size() << " Iloco size: " << IntegerLocations.size() << std::endl;
 #endif
     for(int i=0; i<Ints.size(); i++) {
-        MaxInts.push_back(-100);
-        MinInts.push_back(100);
+        MaxInts.push_back(1);
+        MinInts.push_back(1);
+        AvgInts.push_back(1);
     }
 }
 
@@ -127,10 +128,8 @@ void Output::RecordInt(int Int, int Index) {
     std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
 #endif
     MaxInts.at(Index) = *max_element(std::begin(Ints[Index]), std::end(Ints[Index]));
-    int Min = *min_element(std::begin(Ints[Index]), std::end(Ints[Index]));
-    if(Min > 0)
-        Min = 0;
-    MinInts.at(Index) = Min;
+    MinInts.at(Index) = *min_element(std::begin(Ints[Index]), std::end(Ints[Index]));
+    AvgInts.at(Index) = k::Average(Ints[Index]);
 }
 
 void Output::ParseIntegers(std::vector<std::string> Values) {
@@ -170,6 +169,29 @@ int Output::GetMaxInt(int Index) {
 
 int Output::GetMinInt(int Index) {
     return MinInts.at(Index);
+}
+
+int Output::GetAvgInt(int Index) {
+    return AvgInts.at(Index);
+}
+
+std::string Output::GetPreviousInts(int Index, int No) {
+    std::string S;
+    for(int i=0; i<No; i++) {
+        if(i < Ints[Index].size()) {
+            S = S + std::to_string(Ints[Index].at(i));
+            S = S + " ";
+        }
+    }
+    return S;
+}
+
+std::string Output::GetPreviousInt(int Index, int No) {
+    No++;
+    if(No < Ints[Index].size()) {
+        return std::to_string(Ints[Index].at(No));
+    }
+    return "";
 }
 
 bool IsInteger(std::string str) {
