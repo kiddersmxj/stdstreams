@@ -1,4 +1,5 @@
 #include "../inc/display.hpp"
+#include <ftxui/dom/node.hpp>
 
 using namespace ftxui;
 
@@ -9,23 +10,16 @@ void Display::Create(Output Output) {
 	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, 5);
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
-    for(int i: Output.GetIntLocations()) {
-        Element Element = hbox({
-            window(text(Output.GetName(i)),
-                        text(Output.GetValue(i))
-                            ) | flex }) | flex;
-        IntElements.push_back(Element | flex);
-    }
-    for(int i: Output.GetStrLocations())
-        StrElements.push_back(GetStrElement(Output, i));
 
-        int GraphNo = 0;
+    int GraphNo;
     auto Graph = [&Output, &GraphNo](int width, int height) mutable {
         std::vector<int> Out(width);
 #ifdef ICOUT
         std::cout << width << std::endl;
 #endif
-        int Iterator = Output.GetIntLocations().at(GraphNo);
+        /* int Iterator = Output.GetIntLocations().at(GraphNo); */
+        int Iterator = GraphNo;
+        GraphNo++;
 #ifdef ICOUT
         std::cout << "It: " << Iterator << std::endl;
         std::cout << "size: " << Output.GetInts().at(Iterator).size() << "*********" << std::endl;
@@ -56,19 +50,50 @@ void Display::Create(Output Output) {
         return Out;
     };
 
-    std::vector<Element> Graphs;
+    std::vector<Element> Graphs(Output.GetIntLocations().size());
+#ifdef ICOUT
+    std::cout << Graphs.size() << std::endl;
+#endif
     for(int i=0; i<Output.GetInts().size(); i++) {
         GraphNo = i;
-        graph(std::ref(Graph)) | flex;
+#ifdef ICOUT
+        std::cout << GraphNo << std::endl;
+#endif
+        Graphs.at(i) = graph(std::ref(Graph)) | flex;
     }
+    
+#ifdef ICOUT
+    std::cout << "Through" << std::endl;
+#endif
+
+    GraphNo = 0;
+    int I = 0;
+    for(int i: Output.GetIntLocations()) {
+#ifdef ICOUT
+        std::cout << "I" << I << " i" << i<< std::endl;
+#endif
+        Element Content = vbox({
+            text(Output.GetValue(i)),
+            vbox(Graphs.at(I)) | flex
+        });
+        Element Element = hbox({
+            window(text(Output.GetName(i)),
+            Content) | flex
+            }) | flex;
+        IntElements.push_back(Element);
+        I++;
+    }
+    for(int i: Output.GetStrLocations())
+        StrElements.push_back(GetStrElement(Output, i));
 
     Screen = vbox({
             hbox({
-                vbox(std::move(IntElements)),
+                vbox(std::move(IntElements)) | flex,
                 vbox(std::move(StrElements)),
                 }) | flex,
 				window(text("status"), vbox(std::move(GetStatElement(Output)))) | StatusStyle,
             });
+
     auto screen = Screen::Create(Dimension::Full(), Dimension::Full());
     Render(screen, Screen);
 #ifndef NODISPLAY
