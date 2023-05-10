@@ -13,7 +13,7 @@ void Display::Print() {
 }
 
 void Display::Create(Output Output) {
-	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, 5);
+	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2);
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
 

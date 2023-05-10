@@ -25,6 +25,7 @@ class Output {
         std::string GetPreviousInts(int Index, int No);
         std::string GetPreviousInt(int Index, int No);
         bool GetNegFlag(int Num);
+        int GetMaxStatuses();
     private:
         bool IntRecordCreated = 0;
         std::string Input;
@@ -37,12 +38,13 @@ class Output {
         std::vector<std::string> Names;
         std::vector<std::string> Values;
         std::vector<std::string> Status;
+        int MaxStatuses = 0;
         void CreateIntMatrix(int Int);
         void ParseIntegers(std::vector<std::string> Values);
+        void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
 };
 
 bool IsInteger(std::string str);
-void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
 void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);
 std::vector<std::string> SeperateInput(std::string Input);
 std::string IdentifyEmptyValues(std::string Input);

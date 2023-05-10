@@ -201,23 +201,31 @@ std::string Output::GetPreviousInt(int Index, int No) {
     return "";
 }
 
+int Output::GetMaxStatuses() {
+    return MaxStatuses;
+}
+
 bool IsInteger(std::string str) {
     bool rtn = !str.empty() && str.find_first_not_of("0123456789-.") == std::string::npos;
     return rtn;
 }
 
-void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
-    // Use a copy to properly terate through as you delete status elements from names and values
+void Output::ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
+    // Use a copy to properly iterate through as you delete status elements from names and values
+    int NumStatus = 0;
     std::vector<std::string> NamesCopy = Names;
     for(std::string stat: NamesCopy) {
         // TODO Functionise to add as many keywords to add to status message as user requires
         if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
+            NumStatus++;
             int Index = k::VGetIndex(Names, stat);
             Status.push_back(Values[Index]);
             Names.erase(Names.begin() + Index);
             Values.erase(Values.begin() + Index);
         }
     }
+    if(NumStatus > MaxStatuses)
+        MaxStatuses = NumStatus;
 }
 
 void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values) {
