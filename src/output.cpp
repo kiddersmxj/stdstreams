@@ -175,6 +175,13 @@ int Output::GetAvgInt(int Index) {
     return AvgInts.at(Index);
 }
 
+bool Output::GetNegFlag(int Num) {
+    bool Flag;
+    if(Num == 0)
+            return 0; else (Num > 0) ? Flag = 0: Flag = 1;
+    return Flag;
+}
+
 std::string Output::GetPreviousInts(int Index, int No) {
     std::string S;
     for(int i=0; i<No; i++) {

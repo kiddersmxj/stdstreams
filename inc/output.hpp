@@ -24,6 +24,7 @@ class Output {
         int GetAvgInt(int Index);
         std::string GetPreviousInts(int Index, int No);
         std::string GetPreviousInt(int Index, int No);
+        bool GetNegFlag(int Num);
     private:
         bool IntRecordCreated = 0;
         std::string Input;

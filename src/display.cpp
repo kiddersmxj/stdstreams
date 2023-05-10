@@ -1,4 +1,5 @@
 #include "../inc/display.hpp"
+#include <exception>
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/dom/node.hpp>
 #include <ftxui/screen/color.hpp>
@@ -71,19 +72,41 @@ void Display::Create(Output Output) {
     GraphNo = 0;
     int I = 0;
     for(int i: Output.GetIntLocations()) {
+        std::vector<Element> Values;
+        int CharsNo;
+        bool Flag = 0;
+        for(int k=0; k<4; k++) {
+            CharsNo = std::to_string(Output.GetMaxInt(I)).length();
+            int CharsNoMin = std::to_string(Output.GetMinInt(I)).length();
+            if(CharsNoMin > CharsNo)
+                CharsNo = CharsNoMin;
+            std::string V = Output.GetPreviousInt(I, k);
+            if(Output.GetNegFlag(Output.GetMinInt(I))) {
+                CharsNo++;
+                    V = Output.GetPreviousInt(I, k);
+                    if(stoi(V) >= 0) {
+                        Values.push_back(hbox(text(" ")));
+                        CharsNo--;
+                    }
+                Flag = 1;
+            } else Values.push_back(hbox(text(" ")));
+            Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(Color::Default)) | size(WIDTH, GREATER_THAN, CharsNo+1));
+        }
 #ifdef ICOUT
         std::cout << "I" << I << " i" << i<< std::endl;
 #endif
         Element Content = vbox({
             hbox({
-                text(" " + Output.GetPreviousInt(I, 0)) | color(Color::Default),
-                text(" " + Output.GetPreviousInt(I, 1)) | color(Color::Grey70),
-                text(" " + Output.GetPreviousInt(I, 2)) | color(Color::Grey42),
-                text(" " + Output.GetPreviousInt(I, 3)) | color(Color::Grey23),
+                /* hbox(text(" " + Output.GetPreviousInt(I, 0)) | color(Color::Default)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
+                /* hbox(text(" " + Output.GetPreviousInt(I, 1)) | color(Color::Grey70)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
+                /* hbox(text(" " + Output.GetPreviousInt(I, 2)) | color(Color::Grey42)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
+                /* hbox(text(" " + Output.GetPreviousInt(I, 3)) | color(Color::Grey23)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
+                hbox(std::move(Values)),
                 paragraphAlignRight({
                 "avg:" + std::to_string(Output.GetAvgInt(I)) + "   "
                 "min:" + std::to_string(Output.GetMinInt(I)) + "   "
-                "max:" + std::to_string(Output.GetMaxInt(I))
+                "max:" + std::to_string(Output.GetMaxInt(I)) +
+                "data:" + std::to_string(CharsNo) + " " + std::to_string(Flag) + " " + std::to_string(Output.GetNegFlag(Output.GetMinInt(I)))
                 }),
                 separatorEmpty(),
             }),
