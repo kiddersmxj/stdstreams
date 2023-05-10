@@ -97,16 +97,11 @@ void Display::Create(Output Output) {
 #endif
         Element Content = vbox({
             hbox({
-                /* hbox(text(" " + Output.GetPreviousInt(I, 0)) | color(Color::Default)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
-                /* hbox(text(" " + Output.GetPreviousInt(I, 1)) | color(Color::Grey70)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
-                /* hbox(text(" " + Output.GetPreviousInt(I, 2)) | color(Color::Grey42)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
-                /* hbox(text(" " + Output.GetPreviousInt(I, 3)) | color(Color::Grey23)) | size(WIDTH, GREATER_THAN, CharsNo+1), */
                 hbox(std::move(Values)),
                 paragraphAlignRight({
                 "avg:" + std::to_string(Output.GetAvgInt(I)) + "   "
                 "min:" + std::to_string(Output.GetMinInt(I)) + "   "
-                "max:" + std::to_string(Output.GetMaxInt(I)) +
-                "data:" + std::to_string(CharsNo) + " " + std::to_string(Flag) + " " + std::to_string(Output.GetNegFlag(Output.GetMinInt(I)))
+                "max:" + std::to_string(Output.GetMaxInt(I))
                 }),
                 separatorEmpty(),
             }),
