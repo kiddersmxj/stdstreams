@@ -70,6 +70,10 @@ if(ICOUT STREQUAL "yes")
     message("ICOUT enabled")
     add_compile_definitions(ICOUT)
 endif()
+if(GDB STREQUAL "yes")
+    message("GDB enabled")
+    add_compile_definitions(GDB)
+endif()
 
 #add_compile_definitions(BUILD_SHARED_LIBS=ON)
 
