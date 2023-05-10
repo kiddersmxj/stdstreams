@@ -99,9 +99,9 @@ void Display::Create(Output Output) {
             hbox({
                 hbox(std::move(Values)),
                 paragraphAlignRight({
-                "avg:" + std::to_string(Output.GetAvgInt(I)) + "   "
-                "min:" + std::to_string(Output.GetMinInt(I)) + "   "
-                "max:" + std::to_string(Output.GetMaxInt(I))
+                "avg: " + std::to_string(Output.GetAvgInt(I)) + "   "
+                "min: " + std::to_string(Output.GetMinInt(I)) + "   "
+                "max: " + std::to_string(Output.GetMaxInt(I))
                 }),
                 separatorEmpty(),
             }),
