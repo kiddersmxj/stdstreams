@@ -19,6 +19,7 @@
 #include <ftxui/dom/node.hpp>  // for Render
 #include <ftxui/screen/color.hpp>  // for Color, Color::BlueLight, Color::RedLight, Color::YellowLight, ftxui
 
+#include "config.hpp"
 #include "output.hpp"
 
 using namespace ftxui;

@@ -90,7 +90,7 @@ void Display::Create(Output Output) {
                     }
                 Flag = 1;
             } else Values.push_back(hbox(text(" ")));
-            Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(Color::Default)) | size(WIDTH, GREATER_THAN, CharsNo+1));
+            Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(GreyColours[k])) | size(WIDTH, GREATER_THAN, CharsNo));
         }
 #ifdef ICOUT
         std::cout << "I" << I << " i" << i<< std::endl;

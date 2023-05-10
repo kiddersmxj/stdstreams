@@ -1,6 +1,9 @@
 #ifndef KCONFIG
 #define KCONFIG
+#include <cstdint>
 #include <iostream>
+#include <vector>
+#include <ftxui/screen/color.hpp>
 
 const std::string ParentName = "stdstreams";
 const std::string Version = "0.0.0";
@@ -18,5 +21,8 @@ errors may occur when the user running the command does not have
 access to the stdout of the program run. please check this is not 
 the case.
 )";
+
+// Display
+const ftxui::Color GreyColours[4] = { ftxui::Color::Default, ftxui::Color::Grey70, ftxui::Color::Grey42, ftxui::Color::Grey23 };
 
 #endif
