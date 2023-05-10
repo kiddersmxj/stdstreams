@@ -20,8 +20,11 @@ int main(int argc, char** argv) {
     while(!Child.QuestionExit()) {
         Display.Create(Output);
         Output.Parse(Child.Read());
+#ifdef GDB
         k::BreakPoint();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+#else
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+#endif
     }
 
     Child.Close();
