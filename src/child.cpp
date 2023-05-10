@@ -19,9 +19,6 @@ std::string Child::Read() {
         printf("%s", path);
         printf("\033[0m");
 #endif
-
-        k::BreakPoint();
-
         return path;
     } else  {
         Exit = 1;
