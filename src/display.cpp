@@ -4,6 +4,7 @@
 #include <ftxui/dom/node.hpp>
 #include <ftxui/screen/color.hpp>
 #include <ftxui/screen/string.hpp>
+#include <iostream>
 #include <std-k.hpp>
 #include <string>
 
@@ -13,6 +14,7 @@ void Display::Print() {
 }
 
 void Display::Create(Output Output) {
+    StrHeight = 0;
 	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2);
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
@@ -99,6 +101,9 @@ void Display::Create(Output Output) {
             hbox({
                 hbox(std::move(Values)),
                 paragraphAlignRight({
+#ifdef DATA
+                "[Data: " + Data + " Str: " + std::to_string(StrHeight) + "]   "
+#endif
                 "avg: " + std::to_string(Output.GetAvgInt(I)) + "   "
                 "min: " + std::to_string(Output.GetMinInt(I)) + "   "
                 "max: " + std::to_string(Output.GetMaxInt(I))
@@ -115,13 +120,15 @@ void Display::Create(Output Output) {
         IntElements.push_back(Element);
         I++;
     }
+    /* for(int i: Output.GetStrLocations()) */
+    /*     StrHeight = StrHeight + CalculateMinHeight(Output.GetValue(i), 20); */
     for(int i: Output.GetStrLocations())
         StrElements.push_back(GetStrElement(Output, i));
 
     Screen = vbox({
-            hbox({
+            vbox({
+                hbox(std::move(StrElements)),
                 vbox(std::move(IntElements)) | flex,
-                vbox(std::move(StrElements)),
                 }) | flex,
 				window(text("status"), vbox(std::move(GetStatElement(Output)))) | StatusStyle,
             });
@@ -137,6 +144,59 @@ void Display::Create(Output Output) {
 #endif
 }
 
+Element Display::GetStrElement(Output Output, int Index){
+    int Width = 20;
+	Decorator StringStyle = size(WIDTH, EQUAL, Width) | size(HEIGHT, GREATER_THAN, 30);
+	Element Element = vbox({
+			window(text(Output.GetName(Index)),
+					text(Output.GetValue(Index))
+					) | flex }) | flex;
+	return Element;
+}
+
+int Display::CalculateMinHeight(std::string Value, int Width) {
+    Data = "";
+    // For borders
+    int Height;
+    int Length = Value.length();
+#ifdef DATA
+    Data = Data + std::to_string(Length) + "v" + std::to_string(Width) + " ";
+#endif
+    if(Value.length() <= Width)
+        // Additional two for borders
+        Height = 2;
+    else {
+        std::vector<std::string> V = SeperateInput(Value);
+        int W = 0;
+        int w = 0;
+        for(std::string S: V) {
+            if(W + 1 + S.length() <= Width) {
+                W = W + 1 + S.length();
+            } else {
+                if(W > 0) {
+                    w++;
+                    if(S.length() < Width) {
+                        W = S.length();
+                    } else {
+                        W = (S.length() + 1 +  W) - Width;
+                    }
+                } else {
+                    w++;
+                    W = (S.length() + 1 + W) - Width;
+                }
+            }
+        }
+        Height++;
+    }
+#ifdef DATA
+    Data = Data + std::to_string(Height) + " ";
+#endif
+#ifdef SCOUT
+    std::cout << Value << ": " << Height + 1 << std::endl;
+#endif
+    return Height;
+}
+
 std::vector<Element> GetStatElement(Output Output) {
 	std::vector<Element> StatusElements;
 	for(std::string s: Output.GetStatus()) {
@@ -144,15 +204,6 @@ std::vector<Element> GetStatElement(Output Output) {
 		StatusElements.push_back(Element);
 	}
 	return StatusElements;
-}
-
-Element GetStrElement(Output Output, int Index){
-	Decorator StringStyle = size(WIDTH, GREATER_THAN, 20) | size(HEIGHT, GREATER_THAN, 30) | size(WIDTH, LESS_THAN, 50);
-	Element Element = vbox({
-			window(text(Output.GetName(Index)),
-					text(Output.GetValue(Index))
-					) | flex }) | StringStyle;
-	return Element;
 }
 
 Element GetIntElement(Output Output, int Index) {

@@ -31,12 +31,18 @@ class Display {
         void Create(Output Output);
         std::string ResetPosition;
     private:
+        std::string Data = "N/A";
         Element Screen;
+        int StrHeight = 0;
+        int StrWidth = 0;
+        Element GetStrElement(Output Output, int Index);
+        int CalculateMinHeight(std::string Value, int Width);
 };
 
 std::vector<Element> GetStatElement(Output Output);
 Element GetStrElement(Output Output, int Index);
 Element GetIntElement(Output Output, int Index);
 std::vector<ftxui::Element> GetSectors();
+int CalculateMinHeight(std::string Value, int Width);
 
 #endif
