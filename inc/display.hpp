@@ -30,7 +30,6 @@ class Display {
         int StrWidth = 0;
         Element GetStrElement(Output Output, int Index);
         std::vector<Element> GetStatElement(Output Output);
-        Element GetIntElement(Output Output, int Index);
 };
 
 
