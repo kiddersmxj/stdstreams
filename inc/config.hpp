@@ -41,9 +41,12 @@ const ftxui::Decorator StatStyle = ftxui::color(ftxui::Color::Green);
 const ftxui::Decorator TextStyle = ftxui::color(ftxui::Color::Default);
 // Titles
 const std::string StatusTitle = "Status";
+// Ints
 const std::string MinTitle = "min: ";
 const std::string MaxTitle = "max: ";
 const std::string AvgTitle = "avg: ";
+// How many values are cascaded through (must add respective amount to GreyColours[])
+const int NumOldValuesShown = 4;
 
 // Output
 const std::string NoDataMarkInternal = "NA";
