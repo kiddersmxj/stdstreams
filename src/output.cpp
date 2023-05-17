@@ -263,7 +263,6 @@ std::vector<std::string> SeperateInput(std::string Input) {
 
 std::string IdentifyEmptyValues(std::string Input) {
     auto EmptyDelim = "=,";
-    std::string NoDataMarkInternal = "NAna";
     while(Input.find(EmptyDelim) != std::string::npos) {
         ReplaceFirst(Input, "=,", "=" + NoDataMarkInternal + ",");
     }

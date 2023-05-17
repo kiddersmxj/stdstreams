@@ -1,6 +1,8 @@
 #ifndef KOUTPUT
 #define KOUTPUT
 
+#include "config.hpp"
+
 #include <std-k.hpp>
 #include <iostream>
 #include <string>
