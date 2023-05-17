@@ -18,6 +18,16 @@ options:
     -v / --version      print version and exit
     -p / --program      program to parse stdout
 
+program can be utilised to parse any program that can or does 
+write to stdout. 
+
+format specified as such:
+Mode=Neutral, Speed=41, Potentiometer Position=29, Status=Throttle but no drive selected\n,
+
+the use of \n at the end of each line or equivilent endl character is vital to sucsessful
+execution. the use of quotes around values are not required.
+program used the "," comma to delimit its values.
+
 errors may occur when the user running the command does not have 
 access to the stdout of the program run. please check this is not 
 the case.
@@ -29,5 +39,10 @@ const ftxui::Decorator StrStyle = ftxui::color(ftxui::Color::Red);
 const ftxui::Decorator IntStyle = ftxui::color(ftxui::Color::Cyan);
 const ftxui::Decorator StatStyle = ftxui::color(ftxui::Color::Green);
 const ftxui::Decorator TextStyle = ftxui::color(ftxui::Color::Default);
+
+const std::string StatusTitle = "Status";
+const std::string MinTitle = "min: ";
+const std::string MaxTitle = "max: ";
+const std::string AvgTitle = "avg: ";
 
 #endif
