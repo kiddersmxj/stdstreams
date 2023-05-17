@@ -12,7 +12,7 @@ do
         SPEED=$(($SPEED+$i))
         POTPOSITION=$(($POTPOSITION-$(($i*$i))))
         THROTTLE=$(($THROTTLE+i/2))
-        printf "Mode=Neutral, Speed=$SPEED, Potentiometer Position=$POTPOSITION, Status=Throttle but no drive selected, Status2=Fat error code pls handle, Emerg=, longer status=long status, EMERGStatus=there is an emergency status, Throttle=$THROTTLE\n"
+        printf "Mode=Neutral, Speed=$SPEED, Potentiometer Position=$POTPOSITION, Status=Throttle but no drive selected, Status2=Fat error code pls handle, Emerg=, longer status=long status, EMERGStatus=there is an emergency status, Throttle=$THROTTLE, Brake=no\n"
         sleep $SLEEPTIME
     done
     i=0
@@ -21,7 +21,7 @@ do
         SPEED=$(($SPEED-$i))
         POTPOSITION=$(($POTPOSITION+$(($i*$i))))
         THROTTLE=$(($THROTTLE-i/2))
-        printf "Mode=Neutral, Speed=$SPEED, Potentiometer Position=$POTPOSITION, Status=Throttle but no drive selected, Status2=Fat error code pls handle, Emerg=, longer status=long status, Throttle=$THROTTLE\n"
+        printf "Mode=Neutral, Speed=$SPEED, Potentiometer Position=$POTPOSITION, Status=Throttle but no drive selected, Status2=Fat error code pls handle, Emerg=, longer status=long status, Throttle=$THROTTLE, Brake=yes\n"
         sleep $SLEEPTIME
     done
 done
