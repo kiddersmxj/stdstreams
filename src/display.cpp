@@ -1,11 +1,5 @@
 #include "../inc/display.hpp"
-#include <exception>
 #include <ftxui/dom/elements.hpp>
-#include <ftxui/dom/node.hpp>
-#include <ftxui/screen/color.hpp>
-#include <ftxui/screen/string.hpp>
-#include <iostream>
-#include <std-k.hpp>
 #include <string>
 
 using namespace ftxui;
@@ -15,7 +9,6 @@ void Display::Print() {
 
 void Display::Create(Output Output) {
     StrHeight = 0;
-	Decorator StatusStyle = size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2);
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
 
@@ -100,23 +93,22 @@ void Display::Create(Output Output) {
         Element Content = vbox({
             hbox({
                 hbox(std::move(Values)),
-                paragraphAlignRight({
+                paragraphAlignRight(" "),
 #ifdef DATA
                 "[Data: " + Data + " Str: " + std::to_string(StrHeight) + "]   "
 #endif
-                "avg: " + std::to_string(Output.GetAvgInt(I)) + "   "
-                "min: " + std::to_string(Output.GetMinInt(I)) + "   "
-                "max: " + std::to_string(Output.GetMaxInt(I))
-                }),
+                text("avg: ") | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
+                text("min: ") | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
+                text("max: ") | IntStyle, text(std::to_string(Output.GetMaxInt(I))),
                 separatorEmpty(),
             }),
-            separatorLight(),
+            separatorLight() | IntStyle,
             vbox(Graphs.at(I)) | flex
         });
         Element Element = hbox({
             window(text(Output.GetName(i)),
-            Content) | flex
-            }) | flex;
+            Content | TextStyle) | flex
+            }) | IntStyle | flex;
         IntElements.push_back(Element);
         I++;
     }
@@ -130,7 +122,7 @@ void Display::Create(Output Output) {
                 hbox(std::move(StrElements)),
                 vbox(std::move(IntElements)) | flex,
                 }) | flex,
-				window(text("status"), vbox(std::move(GetStatElement(Output)))) | StatusStyle,
+				window(text("Status"), vbox(std::move(GetStatElement(Output)))) | StatStyle | size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2),
             });
 
     auto screen = Screen::Create(Dimension::Full(), Dimension::Full());
@@ -145,12 +137,13 @@ void Display::Create(Output Output) {
 }
 
 Element Display::GetStrElement(Output Output, int Index){
-    int Width = 20;
-	Decorator StringStyle = size(WIDTH, EQUAL, Width) | size(HEIGHT, GREATER_THAN, 30);
+    std::string V = Output.GetValue(Index);
+    if(!NoDataMarkInternal.compare(V))
+        V = "";
 	Element Element = vbox({
 			window(text(Output.GetName(Index)),
-					text(Output.GetValue(Index))
-					) | flex }) | flex;
+					text(" " + V) | TextStyle
+					) | StrStyle | flex }) | flex;
 	return Element;
 }
 
@@ -200,7 +193,7 @@ int Display::CalculateMinHeight(std::string Value, int Width) {
 std::vector<Element> GetStatElement(Output Output) {
 	std::vector<Element> StatusElements;
 	for(std::string s: Output.GetStatus()) {
-		Element Element = text(s);
+		Element Element = text(" " + s) | TextStyle;
 		StatusElements.push_back(Element);
 	}
 	return StatusElements;
