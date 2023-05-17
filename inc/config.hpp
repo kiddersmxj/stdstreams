@@ -22,11 +22,14 @@ program can be utilised to parse any program that can or does
 write to stdout. 
 
 format specified as such:
-Mode=Neutral, Speed=41, Potentiometer Position=29, Status=Throttle but no drive selected\n,
+Mode=Neutral, Speed=41, Potentiometer Position=29, Status=Throttle 
+but no drive selected\n,
 
-the use of \n at the end of each line or equivilent endl character is vital to sucsessful
-execution. the use of quotes around values are not required.
-program used the "," comma to delimit its values.
+the use of \n at the end of each line or equivilent endl character
+is vital to sucsessful execution. the use of quotes around values 
+are not required. program used the "," comma to delimit its values.
+keeping the order of variables is also nessecary as program uses
+indicies to refernece values rather than names.
 
 errors may occur when the user running the command does not have 
 access to the stdout of the program run. please check this is not 
