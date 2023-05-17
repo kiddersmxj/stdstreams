@@ -4,11 +4,7 @@
 
 using namespace ftxui;
 
-void Display::Print() {
-}
-
 void Display::Create(Output Output) {
-    StrHeight = 0;
     std::vector<Element> IntElements;
     std::vector<Element> StrElements;
 
@@ -94,9 +90,6 @@ void Display::Create(Output Output) {
             hbox({
                 hbox(std::move(Values)),
                 paragraphAlignRight(" "),
-#ifdef DATA
-                "[Data: " + Data + " Str: " + std::to_string(StrHeight) + "]   "
-#endif
                 text(AvgTitle) | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
                 text(MinTitle) | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
                 text(MaxTitle) | IntStyle, text(std::to_string(Output.GetMaxInt(I))),

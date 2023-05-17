@@ -21,8 +21,6 @@ using namespace ftxui;
 
 class Display {
     public:
-        void Close();
-        void Print();
         void Create(Output Output);
         std::string ResetPosition;
     private:
