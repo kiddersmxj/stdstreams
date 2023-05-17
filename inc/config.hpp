@@ -45,4 +45,6 @@ const std::string MinTitle = "min: ";
 const std::string MaxTitle = "max: ";
 const std::string AvgTitle = "avg: ";
 
+const int MaxValueStorage = 400;
+
 #endif

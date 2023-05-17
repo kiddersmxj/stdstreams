@@ -120,7 +120,7 @@ void Output::RecordInt(int Int, int Index) {
     std::cout << "Recorded Int: " << Int << " Index: " << Index << std::endl;
 #endif
     Ints[Index].insert(Ints[Index].begin(), Int);
-    if(Ints[Index].size() > 400 )
+    if(Ints[Index].size() > MaxValueStorage)
         Ints[Index].pop_back();
 #ifdef ECOUT
     for(int i: Ints[Index])
@@ -216,7 +216,7 @@ void Output::ParseStatus(std::vector<std::string> &Names, std::vector<std::strin
     std::vector<std::string> NamesCopy = Names;
     for(std::string stat: NamesCopy) {
         // TODO Functionise to add as many keywords to add to status message as user requires
-        if(stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
+        if(stat.find(StatusTitle) != std::string::npos || stat.find("status") != std::string::npos || stat.find("Status") != std::string::npos) {
             NumStatus++;
             int Index = k::VGetIndex(Names, stat);
             Status.push_back(Values[Index]);
