@@ -97,9 +97,9 @@ void Display::Create(Output Output) {
 #ifdef DATA
                 "[Data: " + Data + " Str: " + std::to_string(StrHeight) + "]   "
 #endif
-                text("avg: ") | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
-                text("min: ") | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
-                text("max: ") | IntStyle, text(std::to_string(Output.GetMaxInt(I))),
+                text(AvgTitle) | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
+                text(MinTitle) | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
+                text(MaxTitle) | IntStyle, text(std::to_string(Output.GetMaxInt(I))),
                 separatorEmpty(),
             }),
             separatorLight() | IntStyle,
@@ -112,8 +112,6 @@ void Display::Create(Output Output) {
         IntElements.push_back(Element);
         I++;
     }
-    /* for(int i: Output.GetStrLocations()) */
-    /*     StrHeight = StrHeight + CalculateMinHeight(Output.GetValue(i), 20); */
     for(int i: Output.GetStrLocations())
         StrElements.push_back(GetStrElement(Output, i));
 
@@ -122,7 +120,7 @@ void Display::Create(Output Output) {
                 hbox(std::move(StrElements)),
                 vbox(std::move(IntElements)) | flex,
                 }) | flex,
-				window(text("Status"), vbox(std::move(GetStatElement(Output)))) | StatStyle | size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2),
+				window(text(StatusTitle), vbox(std::move(GetStatElement(Output)))) | StatStyle | size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2),
             });
 
     auto screen = Screen::Create(Dimension::Full(), Dimension::Full());
@@ -147,50 +145,7 @@ Element Display::GetStrElement(Output Output, int Index){
 	return Element;
 }
 
-int Display::CalculateMinHeight(std::string Value, int Width) {
-    Data = "";
-    // For borders
-    int Height;
-    int Length = Value.length();
-#ifdef DATA
-    Data = Data + std::to_string(Length) + "v" + std::to_string(Width) + " ";
-#endif
-    if(Value.length() <= Width)
-        // Additional two for borders
-        Height = 2;
-    else {
-        std::vector<std::string> V = SeperateInput(Value);
-        int W = 0;
-        int w = 0;
-        for(std::string S: V) {
-            if(W + 1 + S.length() <= Width) {
-                W = W + 1 + S.length();
-            } else {
-                if(W > 0) {
-                    w++;
-                    if(S.length() < Width) {
-                        W = S.length();
-                    } else {
-                        W = (S.length() + 1 +  W) - Width;
-                    }
-                } else {
-                    w++;
-                    W = (S.length() + 1 + W) - Width;
-                }
-            }
-        }
-        Height++;
-    }
-#ifdef DATA
-    Data = Data + std::to_string(Height) + " ";
-#endif
-#ifdef SCOUT
-    std::cout << Value << ": " << Height + 1 << std::endl;
-#endif
-    return Height;
-}
-
-std::vector<Element> GetStatElement(Output Output) {
+std::vector<Element> Display::GetStatElement(Output Output) {
 	std::vector<Element> StatusElements;
 	for(std::string s: Output.GetStatus()) {
 		Element Element = text(" " + s) | TextStyle;
@@ -199,23 +154,11 @@ std::vector<Element> GetStatElement(Output Output) {
 	return StatusElements;
 }
 
-Element GetIntElement(Output Output, int Index) {
+Element Display::GetIntElement(Output Output, int Index) {
     Element Element = hbox({
             window(text(Output.GetName(Index)),
                         text(Output.GetValue(Index))
                             ) | flex }) | flex;
     return Element;
-}
-
-std::vector<Element> GetSectors() {
-    std::vector<Element> Screen;
-    for(int i(0); i<10; i++) {
-        if(i != 0)
-            Screen.push_back(separator());
-        Screen.push_back(vbox({
-                    hbox(text("skr")) | flex
-                  }) | flex);
-    }
-    return Screen;
 }
 
