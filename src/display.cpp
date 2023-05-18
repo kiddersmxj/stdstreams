@@ -9,7 +9,7 @@ void Display::Create(Output Output) {
     std::vector<Element> StrElements;
 
     // Iterator to go through each graph for each value in lambda
-    int GraphNo;
+    int GraphNo = 0;
     // Graph builder
     auto Graph = [&Output, &GraphNo](int width, int height) {
         // Final graph vector sized to width of graph as that is x on graph
@@ -76,8 +76,6 @@ void Display::Create(Output Output) {
     std::cout << "Through" << std::endl;
 #endif
 
-    // Set iterator to zero for iteration upon render call
-    GraphNo = 0;
     // Iterator for each int variable (incremented at end)
     int I = 0;
     // Constructs int elements
@@ -176,6 +174,7 @@ Element Display::GetStrElement(Output Output, int Index){
 // Build status bar
 std::vector<Element> Display::GetStatElement(Output Output) {
 	std::vector<Element> StatusElements;
+    // Adds all status text to status vector
 	for(std::string s: Output.GetStatus()) {
 		Element Element = text(" " + s) | TextStyle;
 		StatusElements.push_back(Element);
