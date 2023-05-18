@@ -1,4 +1,5 @@
 #include "../inc/display.hpp"
+#include <ftxui/dom/node.hpp>
 
 using namespace ftxui;
 
@@ -17,73 +18,51 @@ void Display::Create(Output Output) {
         // Assign graph to an iterator and increment for next call as lambda is called at ftxui::render()
         int Iterator = GraphNo;
         GraphNo++;
-#ifdef ICOUT
-        std::cout << width << std::endl;
-        std::cout << "It: " << Iterator << std::endl;
-        std::cout << "size: " << Output.GetInts().at(Iterator).size() << "*********" << std::endl;
-#endif
+
         // Populate Graph values
         for(int i=0; i<width; i++) {
-#ifdef ICOUT
-            std::cout << i << ": ";
-#endif
             // If the point along the width has a value in the int vector
             // Used to make sure we do not graph values that arent present yet at program commencment
             if(Output.GetInts().at(Iterator).size() > i) {
-#ifdef ICOUT
-                std::cout << Output.GetInts().at(Iterator).at(i) << ",";
-#endif
                 int Value = Output.GetInts().at(Iterator).at(i);
                 int Min = Output.GetMinInt(Iterator);
+
                 // If min is non negative set it to zero so height above zero is shown on graph
                 // Else the min negative value is used as graph lowest point
                 if(Min > 0)
                     Min = 0;
+
                 // Maps the value into the space the graph has on the screen, using min and max and height values
                 Value = k::Map(Value, Min, Output.GetMaxInt(Iterator), 0, height);
+
                 // Assigns value into final position in vector
                 Out.at(i) = Value;
-            } else {
-#ifdef ICOUT
-                std::cout << "0, ";
-#endif
-                // If value doesnt exist -1 doesnt show up on graph like 0 does
-                Out.at(i) = -1;
-            }
-#ifdef ICOUT
-            std::cout << Out.at(i) << ", ";
-#endif
+
+            // If value doesnt exist -1 doesnt show up on graph like 0 does
+            } else Out.at(i) = -1;
         }
-#ifdef ICOUT
-        std::cout << std::endl;
-#endif
         // Return final graph vector of y values (x is heights)
         return Out;
     };
 
     // Vector to store ftxui::graphs
     std::vector<Element> Graphs(Output.GetIntLocations().size());
-#ifdef ICOUT
-    std::cout << Graphs.size() << std::endl;
-#endif
+
     // For each int value (stored in vector)
-    for(int i=0; i<Output.GetInts().size(); i++) {
+    for(int i=0; i<Output.GetInts().size(); i++)
         // Create graph using lambda and add to vector
         Graphs.at(i) = graph(std::ref(Graph)) | flex;
-    }
     
-#ifdef ICOUT
-    std::cout << "Through" << std::endl;
-#endif
-
     // Iterator for each int variable (incremented at end)
     int I = 0;
     // Constructs int elements
     for(int i: Output.GetIntLocations()) {
         std::vector<Element> Values;
         int CharsNum;
+
         // Creates old value cascade
         for(int k=0; k<NumOldValuesShown; k++) {
+
             // Compares to see if min or max values have the most number of characters to get CharsNum
             CharsNum = std::to_string(Output.GetMaxInt(I)).length();
             int CharsNumMin = std::to_string(Output.GetMinInt(I)).length();
@@ -103,9 +82,7 @@ void Display::Create(Output Output) {
             // Adds old values with respective colours based on how old they are to vector
             Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(GreyColours[k])) | size(WIDTH, GREATER_THAN, CharsNum));
         }
-#ifdef ICOUT
-        std::cout << "I" << I << " i" << i<< std::endl;
-#endif
+
         // Create many body of int content with cascade and graph
         Element Content = vbox({
             hbox({
@@ -133,14 +110,19 @@ void Display::Create(Output Output) {
     for(int i: Output.GetStrLocations())
         StrElements.push_back(GetStrElement(Output, i));
 
+    // Build status bar
+	Element Status = window(text(StatusTitle), vbox({
+                        std::move(GetStatElement(Output))
+                        })) | StatStyle | size(HEIGHT, GREATER_THAN, 
+                        Output.GetMaxStatuses() + 2),
+
     // Build screen
     Screen = vbox({
             vbox({
                 hbox(std::move(StrElements)),
                 vbox(std::move(IntElements)) | flex,
+                vbox(Status)
                 }) | flex,
-                // Build status bar
-				window(text(StatusTitle), vbox(std::move(GetStatElement(Output)))) | StatStyle | size(HEIGHT, GREATER_THAN, Output.GetMaxStatuses() + 2),
             });
 
     // ftxui screen creation and rendering
