@@ -44,12 +44,11 @@ class Output {
         void CreateIntMatrix(int Int);
         void ParseIntegers(std::vector<std::string> Values);
         void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
+        void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);
+        std::vector<std::string> SeperateInput(std::string Input);
+        std::string IdentifyEmptyValues(std::string Input);
+        void ReplaceFirst(std::string &s ,std::string const &ToReplace, std::string const &ReplaceWith);
 };
 
-bool IsInteger(std::string str);
-void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);
-std::vector<std::string> SeperateInput(std::string Input);
-std::string IdentifyEmptyValues(std::string Input);
-void ReplaceFirst(std::string &s ,std::string const &ToReplace, std::string const &ReplaceWith);
 
 #endif

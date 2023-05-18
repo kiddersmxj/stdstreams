@@ -1,29 +1,7 @@
 #include "../inc/output.hpp"
-#include <cstddef>
-#include <std-k.hpp>
-#include <string>
-#include <vector>
 
 Output::Output(std::string Input) {
-    /* Input = Input; */
-    /* Input = IdentifyEmptyValues(Input); */
-    /* All = SeperateInput(Input); */
-    /* SeperateNamesValues(All, Names, Values); */
-    /* ParseStatus(Names, Values, Status); */
-    /* IntegerLocations = ParseIntegers(Values); */
     Parse(Input);
-#ifdef OCOUT
-    std::cout << "No of ints: " << IntegerLocations.size() << std::endl;
-
-    std::cout << std::endl << "All:" << std::endl;
-    k::VPrint(All);
-    std::cout << std::endl << "Names:" << std::endl;
-    k::VPrint(Names);
-    std::cout << std::endl << "Values:" << std::endl;
-    k::VPrint(Values);
-    std::cout << std::endl << "Status:" << std::endl;
-    k::VPrint(Status);
-#endif
 }
 
 void Output::Parse(std::string Input) {
@@ -36,15 +14,6 @@ void Output::Parse(std::string Input) {
     SeperateNamesValues(All, Names, Values);
     ParseStatus(Names, Values, Status);
     ParseIntegers(Values);
-#ifdef OCOUT
-    std::cout << "Parsing complete" << std::endl;
-    std::cout << "Out: " << std::endl;
-    k::VPrint(Names);
-    k::VPrint(Values);
-    k::VPrint(Status);
-    for(int i: IntegerLocations)
-        std::cout << i << std::endl;
-#endif
 }
 
 std::string Output::GetValue(int Index) {
@@ -96,18 +65,9 @@ void Output::CreateIntMatrix(int Int) {
     
     int in = 0;
     for(std::vector<int> v: Ints) {
-#ifdef OCOUT
-        std::cout << "Creation start of v " << in << std::endl;
-#endif
         for(int i: v)
-#ifdef OCOUT
-            std::cout << "i: " << i << std::endl;
-#endif
         in++;
     }
-#ifdef OCOUT
-    std::cout << "int size: " << Ints.size() << " Iloco size: " << IntegerLocations.size() << std::endl;
-#endif
     for(int i=0; i<Ints.size(); i++) {
         MaxInts.push_back(1);
         MinInts.push_back(1);
@@ -116,17 +76,9 @@ void Output::CreateIntMatrix(int Int) {
 }
 
 void Output::RecordInt(int Int, int Index) {
-#ifdef OCOUT
-    std::cout << "Recorded Int: " << Int << " Index: " << Index << std::endl;
-#endif
     Ints[Index].insert(Ints[Index].begin(), Int);
     if(Ints[Index].size() > MaxValueStorage)
         Ints[Index].pop_back();
-#ifdef ECOUT
-    for(int i: Ints[Index])
-        std::cout << "Vector with ints in: " << i << std::endl;
-    std::cout << "max (" << Index << "): " << *max_element(std::begin(Ints[Index]), std::end(Ints[Index])) << std::endl;
-#endif
     MaxInts.at(Index) = *max_element(std::begin(Ints[Index]), std::end(Ints[Index]));
     MinInts.at(Index) = *min_element(std::begin(Ints[Index]), std::end(Ints[Index]));
     AvgInts.at(Index) = k::Average(Ints[Index]);
@@ -136,7 +88,7 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
     int i = 0;
     int j = 0;
     for(std::string s: Values) {
-        if(IsInteger(s)) {
+        if(k::IsInteger(s)) {
             IntegerLocations.push_back(i);
             if(IntRecordCreated)
                 RecordInt(stoi(s), j);
@@ -148,15 +100,6 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
         i++;
     }
     IntRecordCreated = 1;
-#ifdef ECOUT
-    int in = 0;
-    for(std::vector<int> v: Ints) {
-        std::cout << "start of v " << in << std::endl;
-        for(int i: v)
-            std::cout << "i2: " << i << std::endl;
-        in++;
-    }
-#endif
 }
 
 std::vector<std::vector<int>> Output::GetInts() {
@@ -205,11 +148,6 @@ int Output::GetMaxStatuses() {
     return MaxStatuses;
 }
 
-bool IsInteger(std::string str) {
-    bool rtn = !str.empty() && str.find_first_not_of("0123456789-.") == std::string::npos;
-    return rtn;
-}
-
 void Output::ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status) {
     // Use a copy to properly iterate through as you delete status elements from names and values
     int NumStatus = 0;
@@ -228,7 +166,7 @@ void Output::ParseStatus(std::vector<std::string> &Names, std::vector<std::strin
         MaxStatuses = NumStatus;
 }
 
-void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values) {
+void Output::SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values) {
     int NameValueFlip = 0;
     auto EqualsDelim = "=";
     for(std::string t: All) {
@@ -245,7 +183,7 @@ void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string>
     }
 }
 
-std::vector<std::string> SeperateInput(std::string Input) {
+std::vector<std::string> Output::SeperateInput(std::string Input) {
     bool Quote = 0;
     std::string tmp;
     std::string s;
@@ -261,7 +199,7 @@ std::vector<std::string> SeperateInput(std::string Input) {
     return V;
 }
 
-std::string IdentifyEmptyValues(std::string Input) {
+std::string Output::IdentifyEmptyValues(std::string Input) {
     auto EmptyDelim = "=,";
     while(Input.find(EmptyDelim) != std::string::npos) {
         ReplaceFirst(Input, "=,", "=" + NoDataMarkInternal + ",");
@@ -269,7 +207,7 @@ std::string IdentifyEmptyValues(std::string Input) {
     return Input;
 }
 
-void ReplaceFirst(std::string &s ,std::string const &ToReplace, std::string const &ReplaceWith) {
+void Output::ReplaceFirst(std::string &s ,std::string const &ToReplace, std::string const &ReplaceWith) {
     std::size_t pos = s.find(ToReplace);
     if (pos == std::string::npos) return;
     s.replace(pos, ToReplace.length(), ReplaceWith);
