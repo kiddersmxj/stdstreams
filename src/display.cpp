@@ -1,5 +1,4 @@
 #include "../inc/display.hpp"
-#include <ftxui/dom/node.hpp>
 
 using namespace ftxui;
 
