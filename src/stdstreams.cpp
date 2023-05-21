@@ -1,59 +1,69 @@
 #include "../inc/stdstreams.hpp"
-#include <bits/getopt_core.h>
-#include <cstdio>
-#include <cstdlib>
 #include <getopt.h>
-#include <iterator>
-#include <stdexcept>
 
 #define PATH_MAX 1000
 extern int errno;
 
 int main(int argc, char** argv) {
+    // Evaluate options and chec flags, return child if passed
     const char* Program = EvalOptions(argc, argv);
 
+    // Build screen
     Display Display;
 
+    // Start child
     Child Child(Program);
+    // Setup and build output vectors using intial stdout read
     Output Output(Child.Read());
 
+    // While stdout exists
     while(!Child.QuestionExit()) {
+        // Create and print a display of the output
         Display.Create(Output);
+        // Parse new output from stdout read
         Output.Parse(Child.Read());
 #ifdef GDB
         k::BreakPoint();
 #else
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // Used to hold program from overruning while loop
+        std::this_thread::sleep_for(std::chrono::milliseconds(ProgramLatency));
 #endif
     }
 
+    // If while exists then stdout has stopped so close child
     Child.Close();
 
     return 0;
 }
 
+// Exit with error and print usage
 void ExitErrorUsage(){
     std::cout << UsageNotes;
     exit(errno);
 }
 
+// Exit with error and print usage and message
 void ExitErrorUsage(const char* Message) {
     perror(Message);
     ExitErrorUsage();
 }
 
+// Print version -v/--version and exist successfully
 void PrintVersion() {
     std::cout << ParentName << ": version " << Version << std::endl;
     exit(EXIT_SUCCESS);
 }
 
+// Get passed args
 const char* EvalOptions(int argc, char** argv) {
+    // Flag and arg value initalisation
     const char* Program;
     int HelpFlag = 0;
     int ProgramFlag = 0;
     int VersionFlag = 0;
     int opt;
 
+    // Get opt option defenitions
     struct option Opts[] = {
         { "help", no_argument, &HelpFlag, 1 },
         { "version", no_argument, &VersionFlag, 1 },
@@ -61,11 +71,11 @@ const char* EvalOptions(int argc, char** argv) {
         { 0 }
     };
 
-    /* infinite loop, to be broken when we are done parsing options */
+    // Infinite loop, to be broken when we are done parsing options
     while (1) {
         opt = getopt_long(argc, argv, "hvp:", Opts, 0);
 
-        /* a return value of -1 indicates that there are no more options */
+        // A return value of -1 indicates that there are no more options
         if (opt == -1) {
             if(HelpFlag && VersionFlag && ProgramFlag)
                 ExitErrorUsage();
@@ -83,7 +93,7 @@ const char* EvalOptions(int argc, char** argv) {
             VersionFlag = 1;
             break;
         case '?':
-            /* a return value of '?' indicates that an option was malformed.
+            /* A return value of '?' indicates that an option was malformed.
              * this could mean that an unrecognized option was given, or that an
              * option which requires an argument did not include an argument.
              */
@@ -92,6 +102,7 @@ const char* EvalOptions(int argc, char** argv) {
             break;
         }
     }
+    // Act on flags
     if(HelpFlag) {
         errno = EXIT_SUCCESS;
         ExitErrorUsage();
@@ -105,5 +116,6 @@ const char* EvalOptions(int argc, char** argv) {
         ExitErrorUsage("please pass program to parse");
     }
 
+    // If no flags has previously returned function then return program
     return Program;
 }

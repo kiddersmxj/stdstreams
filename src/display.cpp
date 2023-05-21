@@ -70,7 +70,7 @@ void Display::Create(Output Output) {
 
             // I honestly have no idea how this works I cannot remember how I did this genius
             // Makes it all nicely spaced :))
-            if(Output.GetNegFlag(Output.GetMinInt(I))) {
+            if(k::IsNegative(Output.GetMinInt(I))) {
                 CharsNum++;
                     if(stoi(Output.GetPreviousInt(I, k)) >= 0) {
                         Values.push_back(hbox(text(" ")));

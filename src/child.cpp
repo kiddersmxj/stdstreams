@@ -1,43 +1,40 @@
 #include "../inc/child.hpp"
 
+// Constructor to launch child
 Child::Child(const char* Program) {
-#ifdef CCOUT
-    std::cout << "Launching child process... " << Program << std::endl;
-#endif
-
-    fp = popen(Program, "r");
-    if (fp == NULL) {
-        /* Handle error */;
+    // Create file stream from launching child
+    child = popen(Program, "r");
+    if (child == NULL) {
+        // Handle error
         std::cout << "popen error" << std::endl;
     }
 }
 
+// Read child stdout
 std::string Child::Read() {
-    if(fgets(path, PATH_MAX, fp) != NULL) {
-#ifdef CCOUT
-        printf("\033[0;35m");
-        printf("%s", path);
-        printf("\033[0m");
-#endif
+    // If stdout exists read and return
+    if(fgets(path, PATH_MAX, child) != NULL) {
         return path;
     } else  {
+        // If program close or other error then set exit code
         Exit = 1;
         return "EXIT";
     }
 }
 
+// Checks if program stdout has terminated
 bool Child::QuestionExit() {
     return Exit;
 }
 
+// Close the program
 void Child::Close() {
-    int status = pclose(fp);
-    if (status == -1) {
-        /* Error reported by pclose() */
+    // Close child
+    int status = pclose(child);
+    // pclose error handling
+    if (status == -1)
+        // Error reported by pclose()
         printf("Error, reported");
-    } else {
-        /* Use macros described under wait() to inspect `status' in order
-         to determine success/failure of command executed by popen() */
+    else
         printf("Done running");
-    }
 }
