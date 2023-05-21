@@ -3,6 +3,8 @@
 #include <ftxui/screen/color.hpp> // for Color
 #include <ftxui/dom/elements.hpp>  // for text, graph, operator|, separator, color, Element, vbox, flex, inverted, operator|=, Fit, hbox, size, border, GREATER_THAN, HEIGHT, Decorator
 
+// Main
+const int ProgramLatency = 50;
 const std::string ParentName = "stdstreams";
 const std::string Version = "0.0.0";
 const std::string UsageNotes = R"(
@@ -27,9 +29,13 @@ are not required. Program used the "," comma to delimit its values.
 Keeping the order of variables is also nessecary as program uses
 indicies to refernece values rather than names.
 
-Errors may occur when the user running the command does not have 
-access to the stdout of the program run. Please check this is not 
-the case.
+Errors may occur under the following circumstances in the current 
+version (check using -v):
+-   The user running the command does not have 
+    access to the stdout of the program run. Please check this is not 
+    the case.
+-   The $ProgramLatency is too high in comparison the the speed of 
+    stdout write from the child.
 )";
 
 // Display
