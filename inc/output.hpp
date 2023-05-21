@@ -24,12 +24,11 @@ class Output {
         int GetMaxInt(int Index);
         int GetMinInt(int Index);
         int GetAvgInt(int Index);
-        std::string GetPreviousInts(int Index, int No);
-        std::string GetPreviousInt(int Index, int No);
-        bool GetNegFlag(int Num);
+        std::string GetPreviousInts(int Index, int Num);
+        std::string GetPreviousInt(int Index, int Num);
         int GetMaxStatuses();
     private:
-        bool IntRecordCreated = 0;
+        bool IntMatrixCreated = 0;
         std::string Input;
         std::vector<int> MaxInts;
         std::vector<int> MinInts;

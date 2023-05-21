@@ -15,6 +15,6 @@ class Child {
     private:
         bool Exit = 0;
         char path[PATH_MAX];
-        FILE *fp;
+        FILE *child;
 };
 #endif
