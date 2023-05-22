@@ -83,8 +83,7 @@ The project aim is to turn the first, messy, hard to read/diagnose output from a
 one may be building/debugging (we've all been there with print messages) into the easy to
 read and debug visual output in the second image.
 
-[![stdout Screen Shot][stdout-screenshot]]
-[![stdstreams Screen Shot][product-screenshot]]
+![stdstreams Screen Shot][product-screenshot]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -127,7 +126,7 @@ stdstreams can be used with any child program that prints to stdout in the way d
 
 Here is an example of usage with a simple mcu, reading two potentiometers and a button. Marked using P1, P2 and B1:
 
-[![stdstreams-mcu-stdout][stdstreams-mcu-stdout]]
+![stdstreams-mcu-stdout][stdstreams-mcu-stdout]
 
 The command used there was `stdstreams --program="arduino-cli monitor -p /dev/ttyACM0"`
 To run the testing (bash) script use `stdstreams -p tests/stdout.sh`
@@ -233,14 +232,13 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[cmake-shield]: https://github.com/kiddersmxj/stdstreams/actions/workflows/cmake.yml/badge.svg
+[cmake-shield]: https://github.com/kiddersmxj/stdstreams/actions/workflows/cmake.yml/badge.svg?style=for-the-badge
 [cmake-url]: https://github.com/kiddersmxj/stdstreams/actions/workflows/cmake.yml
 [issues-shield]: https://img.shields.io/github/issues/kiddersmxj/stdstreams.svg?style=for-the-badge
 [issues-url]: https://github.com/kiddersmxj/stdstreams/issues
 [license-shield]: https://img.shields.io/github/license/kiddersmxj/stdstreams.svg?style=for-the-badge
 [license-url]: https://github.com/kiddersmxj/stdstreams/blob/master/LICENSE.txt
-[product-screenshot]: .images/stdstreams-stdout-0.0.1.png
-[stdout-screenshot]: .images/stdout-0.0.1.png
+[product-screenshot]: .images/stdstreams-stdout-mix-0.0.1.png
 [stdstreams-mcu-stdout]: .images/stdstreams-mcu-stdout-0.0.1.png
 [FTXUI]: https://img.shields.io/badge/FTXUI-563D7C?style=for-the-badge&logo=FTXUI&logoColor=purple
 [FTXUI-url]: https://github.com/ArthurSonzogni/FTXUI
