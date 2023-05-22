@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.11)
  
 # --- Fetch libs --------------------------------------------------------------
+
 include(FetchContent)
  
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
@@ -35,25 +36,11 @@ project(stdstreams
 )
 
 add_executable(stdstreams src/stdstreams.cpp)
-# add_custom_target(stdstreams ALL)
 
 install(
     TARGETS stdstreams
     DESTINATION /usr/local/bin/
 )
-#message(${std-k_SOURCE_DIR}/inc)
-#message(${CMAKE_INSTALL_INCLUDEDIR})
-#message(${std-k_BINARY_DIR})
-#message(${CMAKE_INSTALL_LIBDIR})
-#install(DIRECTORY "${std-k_SOURCE_DIR}/inc" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-#install(DIRECTORY ${std-k_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_LIBDIR})
-#install(TARGETS std-k
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-#install(
-#    TARGETS std-k
-#    DESTINATION /usr/local/lib
-#)
 
 if(DISPLAY STREQUAL "no")
     message("NODISPLAY enabled")
@@ -78,8 +65,6 @@ if(GDB STREQUAL "yes")
     message("GDB enabled")
     add_compile_definitions(GDB)
 endif()
-
-#add_compile_definitions(BUILD_SHARED_LIBS=ON)
 
 target_sources(stdstreams
     PRIVATE src/output.cpp
