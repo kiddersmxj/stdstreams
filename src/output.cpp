@@ -104,7 +104,6 @@ void Output::RecordInt(int Int, int Index) {
     // Get int status bar info
     MaxInts.at(Index) = *max_element(std::begin(Ints[Index]), std::end(Ints[Index]));
     MinInts.at(Index) = *min_element(std::begin(Ints[Index]), std::end(Ints[Index]));
-    // TODO check divide by zero error
     AvgInts.at(Index) = k::Average(Ints[Index]);
 }
 
