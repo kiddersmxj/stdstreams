@@ -93,6 +93,7 @@ read and debug visual output in the second image.
 ### Built With
 
  [![CPP][CPP]][CPP-url]
+
  [![FTXUI][FTXUI]][FTXUI-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
