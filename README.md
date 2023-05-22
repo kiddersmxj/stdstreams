@@ -92,8 +92,8 @@ read and debug visual output in the second image.
 
 ### Built With
 
-* [![CPP][CPP]][CPP-url]
-* [![FTXUI][FTXUI]][FTXUI-url]
+ [![CPP][CPP]][CPP-url]
+ [![FTXUI][FTXUI]][FTXUI-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -132,6 +132,7 @@ Here is an example of usage with a simple mcu, reading two potentiometers and a 
 ![stdstreams-mcu-stdout][stdstreams-mcu-stdout]
 
 The command used there was `stdstreams --program="arduino-cli monitor -p /dev/ttyACM0"`
+
 To run the testing (bash) script use `stdstreams -p tests/stdout.sh`
 
 ```
