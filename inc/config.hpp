@@ -12,7 +12,7 @@
 // Main
 const int ProgramLatency = 50;
 const std::string ParentName = "stdstreams";
-const std::string Version = "0.0.0";
+const std::string Version = "1.0.0";
 const std::string UsageNotes = R"(
 usage: stdstreams [ -o/--options=value ] [ -p/--program=value ]
 Make sure to give the full path of the program
