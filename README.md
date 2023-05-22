@@ -232,7 +232,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[cmake-shield]: https://img.shields.io/endpoint.svg?url=shttps://github.com/kiddersmxj/stdstreams/actions/workflows/cmake.yml/badge.svga&style=for-the-badge
+[cmake-shield]: https://img.shields.io/github/actions/workflow/status/kiddersmxj/stdstreams/cmake.yml?style=for-the-badge
 [cmake-url]: https://github.com/kiddersmxj/stdstreams/actions/workflows/cmake.yml
 [issues-shield]: https://img.shields.io/github/issues/kiddersmxj/stdstreams.svg?style=for-the-badge
 [issues-url]: https://github.com/kiddersmxj/stdstreams/issues
