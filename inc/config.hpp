@@ -48,7 +48,7 @@ version (check using -v):
 // Colours
 const ftxui::Color GreyColours[4] = { ftxui::Color::Default, ftxui::Color::Grey70, ftxui::Color::Grey42, ftxui::Color::Grey23 };
 const ftxui::Decorator StrStyle = ftxui::color(ftxui::Color::Red);
-const ftxui::Decorator IntStyle = ftxui::color(ftxui::Color::Cyan);
+const ftxui::Decorator IntStyle = ftxui::color(ftxui::Color::Magenta);
 const ftxui::Decorator StatStyle = ftxui::color(ftxui::Color::Green);
 const ftxui::Decorator TextStyle = ftxui::color(ftxui::Color::Default);
 // Titles
@@ -62,6 +62,6 @@ const int NumOldValuesShown = 4;
 
 // Output
 const std::string NoDataMarkInternal = "NA";
-const int MaxValueStorage = 400;
+const int MaxValueStorage = 400000;
 
 #endif
