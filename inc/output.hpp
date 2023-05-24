@@ -26,6 +26,7 @@ class Output {
         std::string GetName(int Index);
         std::vector<std::string> GetStatus();
         void RecordInt(int Int, int Index);
+        void RecordStr(std::string Str, int Index);
         std::vector<std::vector<int>> GetInts();
         int GetMaxInt(int Index);
         int GetMinInt(int Index);
@@ -35,19 +36,23 @@ class Output {
         int GetMaxStatuses();
     private:
         bool IntMatrixCreated = 0;
+        bool StrMatrixCreated = 0;
         std::string Input;
         std::vector<int> MaxInts;
         std::vector<int> MinInts;
         std::vector<int> AvgInts;
         std::vector<std::vector<int>> Ints;
+        std::vector<std::vector<std::string>> Strs;
         std::vector<int> IntegerLocations;
+        std::vector<int> StringLocations;
         std::vector<std::string> All;
         std::vector<std::string> Names;
         std::vector<std::string> Values;
         std::vector<std::string> Status;
         int MaxStatuses = 0;
         void CreateIntMatrix(int Int);
-        void ParseIntegers(std::vector<std::string> Values);
+        void CreateStrMatrix(std::string Str);
+        void ParseValues(std::vector<std::string> Values);
         void ParseStatus(std::vector<std::string> &Names, std::vector<std::string> &Values, std::vector<std::string> &Status);
         void SeperateNamesValues(std::vector<std::string> &All, std::vector<std::string> &Names, std::vector<std::string> &Values);
         std::vector<std::string> SeperateInput(std::string Input);

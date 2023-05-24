@@ -27,7 +27,7 @@ void Output::Parse(std::string Input) {
     // Gets names flagged as status and adds to vector
     ParseStatus(Names, Values, Status);
     // Function chain creating stored int lists
-    ParseIntegers(Values);
+    ParseValues(Values);
 }
 
 std::string Output::GetValue(int Index) {
@@ -77,6 +77,15 @@ std::vector<int> Output::GetStrLocations() {
 }
 
 // Builds framework for multilayer int recording matrix
+void Output::CreateStrMatrix(std::string Str) {
+    // Inner vector initialisation
+    std::vector<std::string> V;
+    V.push_back(Str);
+    // Add inner vector to main to initialise
+    Strs.push_back(V);
+}
+
+// Builds framework for multilayer int recording matrix
 void Output::CreateIntMatrix(int Int) {
     // Inner vector initialisation
     std::vector<int> V;
@@ -90,6 +99,16 @@ void Output::CreateIntMatrix(int Int) {
         MinInts.push_back(1);
         AvgInts.push_back(1);
     }
+}
+
+// Stores strs in matrix
+void Output::RecordStr(std::string Str, int Index) {
+    // Add str to respective indexed row of matrix at the front (for rollback)
+    Strs[Index].insert(Strs[Index].begin(), Str);
+
+    // If max storage reached the remove oldest value
+    if(Strs[Index].size() > MaxValueStorage)
+        Strs[Index].pop_back();
 }
 
 // Stores ints in matrix
@@ -108,9 +127,10 @@ void Output::RecordInt(int Int, int Index) {
 }
 
 // Creates all int respective vectors
-void Output::ParseIntegers(std::vector<std::string> Values) {
+void Output::ParseValues(std::vector<std::string> Values) {
     int i = 0;
     int j = 0;
+    int k = 0;
     for(std::string s: Values) {
         if(k::IsInteger(s)) {
             // If an int the add location to locations
@@ -122,6 +142,16 @@ void Output::ParseIntegers(std::vector<std::string> Values) {
                 CreateIntMatrix(stoi(s));
             }
             j++;
+        } else {
+            // Must be a string
+            StringLocations.push_back(i);
+            // If matrix has been created then record if not then create to prevent invlaid size
+            if(StrMatrixCreated)
+                RecordStr(s, k);
+            else if(!IntMatrixCreated) {
+                CreateStrMatrix(s);
+            }
+            k++;
         }
         i++;
     }
