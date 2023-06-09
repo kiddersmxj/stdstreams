@@ -10,7 +10,7 @@
 #include <ftxui/dom/elements.hpp>  // for text, graph, operator|, separator, color, Element, vbox, flex, inverted, operator|=, Fit, hbox, size, border, GREATER_THAN, HEIGHT, Decorator
 
 // Main
-const int ProgramLatency = 50;
+const int ProgramLatency = 120;
 const std::string ParentName = "stdstreams";
 const std::string Version = "1.0.0";
 const std::string UsageNotes = R"(

@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 
+#include "ftxui/component/screen_interactive.hpp"  // for ScreenInteractive
 #include <ftxui/component/captured_mouse.hpp>  // for ftxui
 #include <ftxui/component/component.hpp>  // for Menu, Renderer, Horizontal, Vertical
 #include <ftxui/component/component_base.hpp>  // for ComponentBase
@@ -22,12 +23,13 @@
 
 #include "config.hpp"
 #include "output.hpp"
+#include "child.hpp"
 
 using namespace ftxui;
 
 class Display {
     public:
-        void Create(Output Output);
+        void Create(Output Output, Child Child);
         std::string ResetPosition;
     private:
         std::string Data = "N/A";

@@ -5,6 +5,7 @@
 /* LICENSE file in the root directory of this source tree. */ 
 
 #include "../inc/child.hpp"
+#include <std-k.hpp>
 
 // Constructor to launch child
 Child::Child(const char* Program) {
@@ -20,6 +21,9 @@ Child::Child(const char* Program) {
 std::string Child::Read() {
     // If stdout exists read and return
     if(fgets(path, PATH_MAX, child) != NULL) {
+        /* std::vector<std::string> p(1); */
+        /* p.push_back(path); */
+        /* k::WriteFileLines(p, "Output"); */
         return path;
     } else  {
         // If program close or other error then set exit code

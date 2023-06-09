@@ -5,14 +5,12 @@
 /* LICENSE file in the root directory of this source tree. */ 
 
 #include "../inc/display.hpp"
+#include <ctime>
 
 using namespace ftxui;
 
 // Create screen and render
-void Display::Create(Output Output) {
-    // Vectors to store different types of Elements
-    std::vector<Element> IntElements;
-    std::vector<Element> StrElements;
+void Display::Create(Output Output, Child Child) {
 
     // Iterator to go through each graph for each value in lambda
     int GraphNo = 0;
@@ -50,94 +48,141 @@ void Display::Create(Output Output) {
         return Out;
     };
 
-    // Vector to store ftxui::graphs
-    std::vector<Element> Graphs(Output.GetIntLocations().size());
+    auto r = Renderer([&Output, &Graph, this] {
+        // Vectors to store different types of Elements
+        std::vector<Element> IntElements;
+        std::vector<Element> StrElements;
 
-    // For each int value (stored in vector)
-    for(int i=0; i<Output.GetInts().size(); i++)
-        // Create graph using lambda and add to vector
-        Graphs.at(i) = graph(std::ref(Graph)) | flex;
-    
-    // Iterator for each int variable (incremented at end)
-    int I = 0;
-    // Constructs int elements
-    for(int i: Output.GetIntLocations()) {
-        std::vector<Element> Values;
-        int CharsNum;
+        // Vector to store ftxui::graphs
+        std::vector<Element> Graphs(Output.GetIntLocations().size());
+        /* std::cout << Output.GetIntLocations().size() << std::endl; */
 
-        // Creates old value cascade
-        for(int k=0; k<NumOldValuesShown; k++) {
-
-            // Compares to see if min or max values have the most number of characters to get CharsNum
-            CharsNum = std::to_string(Output.GetMaxInt(I)).length();
-            int CharsNumMin = std::to_string(Output.GetMinInt(I)).length();
-            if(CharsNumMin > CharsNum)
-                CharsNum = CharsNumMin;
-
-            // I honestly have no idea how this works I cannot remember how I did this genius
-            // Makes it all nicely spaced :))
-            if(k::IsNegative(Output.GetMinInt(I))) {
-                CharsNum++;
-                    if(stoi(Output.GetPreviousInt(I, k)) >= 0) {
-                        Values.push_back(hbox(text(" ")));
-                        CharsNum--;
-                    }
-            } else Values.push_back(hbox(text(" ")));
-
-            // Adds old values with respective colours based on how old they are to vector
-            Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(GreyColours[k])) | size(WIDTH, GREATER_THAN, CharsNum));
+        // For each int value (stored in vector)
+        for(int i=0; i<Output.GetInts().size(); i++) {
+            /* std::cout << "skr" << std::endl; */
+            // Create graph using lambda and add to vector
+            /* std::cout << Graphs.size() << std::endl; */
+            Graphs.at(i) = graph(std::ref(Graph)) | flex;
         }
+        
+        // Iterator for each int variable (incremented at end)
+        int I = 0;
+        // Constructs int elements
+        for(int i: Output.GetIntLocations()) {
+            std::vector<Element> Values;
+            int CharsNum;
 
-        // Create many body of int content with cascade and graph
-        Element Content = vbox({
-            hbox({
-                hbox(std::move(Values)),
-                paragraphAlignRight(" "),
-                // Gets special properties from Output class
-                text(AvgTitle) | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
-                text(MinTitle) | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
-                text(MaxTitle) | IntStyle, text(std::to_string(Output.GetMaxInt(I))),
-                separatorEmpty(),
-            }),
-            separatorLight() | IntStyle,
-            vbox(Graphs.at(I)) | flex
-        });
-        // Wraps int content in border and title
-        Element Element = hbox({
-            window(text(Output.GetName(i)),
-            Content | TextStyle) | flex
-            }) | IntStyle | flex;
-        IntElements.push_back(Element);
-        // Increments to build next int variable
-        I++;
-    }
-    // Build string elements
-    for(int i: Output.GetStrLocations())
-        StrElements.push_back(GetStrElement(Output, i));
+            // Creates old value cascade
+            for(int k=0; k<NumOldValuesShown; k++) {
 
-    // Build status bar
-	Element Status = window(text(StatusTitle), vbox({
-                        std::move(GetStatElement(Output))
-                        })) | StatStyle | size(HEIGHT, GREATER_THAN, 
-                        Output.GetMaxStatuses() + 2),
+                // Compares to see if min or max values have the most number of characters to get CharsNum
+                CharsNum = std::to_string(Output.GetMaxInt(I)).length();
+                int CharsNumMin = std::to_string(Output.GetMinInt(I)).length();
+                if(CharsNumMin > CharsNum)
+                    CharsNum = CharsNumMin;
 
-    // Build screen
-    Screen = vbox({
-            vbox({
-                hbox(std::move(StrElements)),
-                vbox(std::move(IntElements)) | flex,
-                vbox(Status)
-                }) | flex,
+                // I honestly have no idea how this works I cannot remember how I did this genius
+                // Makes it all nicely spaced :))
+                if(k::IsNegative(Output.GetMinInt(I))) {
+                    CharsNum++;
+                        if(stoi(Output.GetPreviousInt(I, k)) >= 0) {
+                            Values.push_back(hbox(text(" ")));
+                            CharsNum--;
+                        }
+                } else Values.push_back(hbox(text(" ")));
+
+                // Adds old values with respective colours based on how old they are to vector
+                Values.push_back(hbox(text(Output.GetPreviousInt(I, k)) | color(GreyColours[k])) | size(WIDTH, GREATER_THAN, CharsNum));
+            }
+
+            // Create many body of int content with cascade and graph
+            Element Content = vbox({
+                hbox({
+                    hbox(std::move(Values)),
+                    paragraphAlignRight(" "),
+                    // Gets special properties from Output class
+                    text(AvgTitle) | IntStyle, text( std::to_string(Output.GetAvgInt(I)) + "   "),
+                    text(MinTitle) | IntStyle, text(std::to_string(Output.GetMinInt(I)) + "   "),
+                    text(MaxTitle) | IntStyle, text(std::to_string(Output.GetMaxInt(I))),
+                    separatorEmpty(),
+                }),
+                separatorLight() | IntStyle,
+                vbox(Graphs.at(I)) | flex
             });
+            // Wraps int content in border and title
+            Element Element = hbox({
+                window(text(Output.GetName(i)),
+                Content | TextStyle) | flex
+                }) | IntStyle | flex;
+            IntElements.push_back(Element);
+            // Increments to build next int variable
+            I++;
+        }
+        // Build string elements
+        for(int i: Output.GetStrLocations())
+            StrElements.push_back(GetStrElement(Output, i));
+
+        // Build status bar
+        Element Status = window(text(StatusTitle), vbox({
+                            std::move(GetStatElement(Output))
+                            })) | StatStyle | size(HEIGHT, GREATER_THAN, 
+                            Output.GetMaxStatuses() + 2),
+
+        // Build screen
+        Screen = vbox({
+                vbox({
+                    hbox(std::move(StrElements)),
+                    vbox(std::move(IntElements)) | flex,
+                    vbox(Status)
+                    }) | flex,
+                });
+        return Screen;
+    });
 
     // ftxui screen creation and rendering
-    auto screen = Screen::Create(Dimension::Full(), Dimension::Full());
-    Render(screen, Screen);
+    auto screen = ScreenInteractive::Fullscreen();
+
+    bool refresh_ui_continue = true;
+    std::thread refresh_ui([&] {
+        while(refresh_ui_continue) {
+            // The |shift| variable belong to the main thread. `screen.Post(task)`
+            // will execute the update on the thread where |screen| lives (e.g. the
+            // main thread). Using `screen.Post(task)` is threadsafe.
+            /* std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nfnldk\n"; */
+            GraphNo = 0;
+            std::this_thread::sleep_for(std::chrono::milliseconds(ProgramLatency));
+            screen.Post([&] { Output.Parse(Child.Read()); });
+            /* std::cout << Output.GetValue(1) << std::endl; */
+            // After updating the state, request a new frame to be drawn. This is done
+            // by simulating a new "custom" event to be handled.
+            screen.Post(Event::Custom);
+            if(!refresh_ui_continue) {
+                screen.ExitLoopClosure()();
+                std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\niwblnka\n";
+            }
+        }
+    });
+
+    /* auto renderer = Renderer([Screen] { return Screen; }); */
+    r = CatchEvent(r, [&](Event event) {
+        if (event == Event::Character('q')) {
+            /* screen.Post([&] { Output.Parse(Child.Read()); }); */
+            /* screen.ExitLoopClosure()(); */
+            refresh_ui_continue = false;
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            /* screen.Post([&] { Output.Parse(Child.Read()); }); */
+            return true;
+        }
+        return false;
+    });
+    /* auto screen = Screen::Create(Dimension::Full(), Dimension::Full()); */
+    /* Render(screen, Screen); */
 #ifndef NODISPLAY
     // Stops terminal scrolling
-    std::cout << ResetPosition;
-    screen.Print();
-    ResetPosition = screen.ResetPosition();
+    /* std::cout << ResetPosition; */
+    /* screen.Print(); */
+    /* ResetPosition = screen.ResetPosition(); */
+    screen.Loop(r);
 #else
         std::cout << "***DISPLAY***" << std::endl;
 #endif

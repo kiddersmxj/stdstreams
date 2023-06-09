@@ -23,18 +23,18 @@ int main(int argc, char** argv) {
     Output Output(Child.Read());
 
     // While stdout exists
-    while(!Child.QuestionExit()) {
-        // Create and print a display of the output
-        Display.Create(Output);
-        // Parse new output from stdout read
-        Output.Parse(Child.Read());
-#ifdef GDB
-        k::BreakPoint();
-#else
-        // Used to hold program from overruning while loop
-        std::this_thread::sleep_for(std::chrono::milliseconds(ProgramLatency));
-#endif
-    }
+    /* while(!Child.QuestionExit()) { */
+    /*     // Create and print a display of the output */
+        Display.Create(Output, Child);
+    /*     // Parse new output from stdout read */
+    /*     Output.Parse(Child.Read()); */
+/* #ifdef GDB */
+    /*     k::BreakPoint(); */
+/* #else */
+    /*     // Used to hold program from overruning while loop */
+    /*     std::this_thread::sleep_for(std::chrono::milliseconds(ProgramLatency)); */
+/* #endif */
+    /* } */
 
     // If while exists then stdout has stopped so close child
     Child.Close();
