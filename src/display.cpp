@@ -195,7 +195,7 @@ Element Display::GetStrElement(Output Output, int Index){
     if(!NoDataMarkInternal.compare(V))
         V = "";
 
-	Element Element = vbox({
+    Element Element = vbox({
 			window(text(Output.GetName(Index)),
 					text(" " + V) | TextStyle
 					) | StrStyle | flex }) | flex;

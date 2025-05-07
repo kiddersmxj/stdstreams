@@ -12,5 +12,7 @@ else
     ARGS="-DDISPLAY=yes"
 fi
 
-cmake -B build $ARGS && cmake --build build && sudo cmake --install build
+mkdir -p build
+script -q -c "cmake -B build $ARGS && cmake --build build && sudo cmake --install build" | tee build/build.log
+
 
